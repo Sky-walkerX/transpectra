@@ -15,21 +15,13 @@ function ManagerInsights() {
   const { categories2, trendData } = getCategoryTrendData(warehouseData);
   const restockAlerts = getTopRestockAlerts(warehouseData);
 
-  // Add console.log for debugging
-  console.log('Inventory Data:', { categories, current, past });
-  console.log('Line Chart Data:', { categories2, trendData });
-
   return (
-    <div className="flex flex-col gap-y-5 items-center">
+    <div className="flex flex-col gap-y-5 items-center p-6">
       <div className="relative max-w-fit flex gap-x-2">
         <div className="flex flex-col gap-y-4">
           <div className="flex flex-row gap-x-5 justify-between items-start">
             <div className="flex flex-col pb-6 w-7/12 h-full gap-y-1 items-center justify-between border border-lblue rounded-md p-3 shadow-lg shadow-blue-25">
-              <InventoryBarChart 
-                categories={categories || []} 
-                currentData={current || []} 
-                pastData={past || []} 
-              />
+              <InventoryBarChart categories={categories} currentData={current} pastData={past} />
             </div>
             <div>
               <RestockTable restockAlerts={restockAlerts}/>

@@ -19,6 +19,46 @@ function ManagerInsights() {
     <div className="flex flex-col gap-y-6 items-center p-6">
       <div className="w-full max-w-7xl">
         <div className="flex flex-col gap-y-6">
+          {/* Stats Cards Section */}
+          <div className="flex flex-row gap-x-6 w-full">
+            <div className="bg-gradient-to-br from-blue-600 to-blue-700 w-1/3 p-6 rounded-xl shadow-lg transform transition-all duration-300 hover:scale-105">
+              <div className="flex flex-row items-start justify-between gap-x-3">
+                <div className="flex flex-col justify-center gap-y-2">
+                  <p className="text-white font-medium opacity-90 text-lg">Load/Unload Time</p>
+                  <h3 className="text-white font-bold text-2xl">85%</h3>
+                  <p className="text-white/80 text-sm">+5% from last month</p>
+                </div>  
+                <div className="bg-white/20 p-3 rounded-lg">
+                  <TbTruckDelivery className="text-white w-[32px] h-[32px]"/>
+                </div>
+              </div>
+            </div>
+            <div className="bg-gradient-to-br from-blue-600 to-blue-700 w-1/3 p-6 rounded-xl shadow-lg transform transition-all duration-300 hover:scale-105">
+              <div className="flex flex-row items-start justify-between gap-x-3">
+                <div className="flex flex-col justify-center gap-y-2">
+                  <p className="text-white font-medium opacity-90 text-lg">Cost Optimization</p>
+                  <h3 className="text-white font-bold text-2xl">21%</h3>
+                  <p className="text-white/80 text-sm">+3% from last month</p>
+                </div>  
+                <div className="bg-white/20 p-3 rounded-lg">
+                  <RiCoinsFill className="text-white w-[32px] h-[32px]"/>
+                </div>
+              </div>
+            </div>
+            <div className="bg-gradient-to-br from-blue-600 to-blue-700 w-1/3 p-6 rounded-xl shadow-lg transform transition-all duration-300 hover:scale-105">
+              <div className="flex flex-row items-start justify-between gap-x-3">
+                <div className="flex flex-col justify-center gap-y-2">
+                  <p className="text-white font-medium opacity-90 text-lg">On-Time Deliveries</p>
+                  <h3 className="text-white font-bold text-2xl">95%</h3>
+                  <p className="text-white/80 text-sm">+2% from last month</p>
+                </div>  
+                <div className="bg-white/20 p-3 rounded-lg">
+                  <TbTruckDelivery className="text-white w-[32px] h-[32px]"/>
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* Top Section */}
           <div className="flex flex-row gap-x-6 justify-between items-start">
             <div className="flex flex-col w-8/12 h-full gap-y-1 items-center justify-between bg-white rounded-xl p-6 shadow-lg">
@@ -31,54 +71,11 @@ function ManagerInsights() {
 
           {/* Middle Section */}
           <div className="flex flex-row gap-x-6 w-full">
-            {/* Stats Cards */}
-            <div className="flex flex-col justify-center gap-y-4 w-1/4">
-              <div className="bg-gradient-to-br from-blue-600 to-blue-700 w-full p-6 rounded-xl shadow-lg transform transition-all duration-300 hover:scale-105">
-                <div className="flex flex-row items-start justify-between gap-x-3">
-                  <div className="flex flex-col justify-center gap-y-2">
-                    <p className="text-white font-medium opacity-90 text-lg">Load/Unload Time</p>
-                    <h3 className="text-white font-bold text-2xl">85%</h3>
-                    <p className="text-white/80 text-sm">+5% from last month</p>
-                  </div>  
-                  <div className="bg-white/20 p-3 rounded-lg">
-                    <TbTruckDelivery className="text-white w-[32px] h-[32px]"/>
-                  </div>
-                </div>
-              </div>
-              <div className="bg-gradient-to-br from-blue-600 to-blue-700 w-full p-6 rounded-xl shadow-lg transform transition-all duration-300 hover:scale-105">
-                <div className="flex flex-row items-start justify-between gap-x-3">
-                  <div className="flex flex-col justify-center gap-y-2">
-                    <p className="text-white font-medium opacity-90 text-lg">Cost Optimization</p>
-                    <h3 className="text-white font-bold text-2xl">21%</h3>
-                    <p className="text-white/80 text-sm">+3% from last month</p>
-                  </div>  
-                  <div className="bg-white/20 p-3 rounded-lg">
-                    <RiCoinsFill className="text-white w-[32px] h-[32px]"/>
-                  </div>
-                </div>
-              </div>
-              <div className="bg-gradient-to-br from-blue-600 to-blue-700 w-full p-6 rounded-xl shadow-lg transform transition-all duration-300 hover:scale-105">
-                <div className="flex flex-row items-start justify-between gap-x-3">
-                  <div className="flex flex-col justify-center gap-y-2">
-                    <p className="text-white font-medium opacity-90 text-lg">On-Time Deliveries</p>
-                    <h3 className="text-white font-bold text-2xl">95%</h3>
-                    <p className="text-white/80 text-sm">+2% from last month</p>
-                  </div>  
-                  <div className="bg-white/20 p-3 rounded-lg">
-                    <TbTruckDelivery className="text-white w-[32px] h-[32px]"/>
-                  </div>
-                </div>
-              </div>
+            <div className="flex flex-col w-1/2 gap-y-1 items-center justify-between bg-white rounded-xl p-6 shadow-lg">
+              <InventoryLineChart categories2={categories2} trendData={trendData} />
             </div>
-
-            {/* Charts */}
-            <div className="flex flex-row gap-x-6 w-3/4">
-              <div className="flex flex-col w-1/2 gap-y-1 items-center justify-between bg-white rounded-xl p-6 shadow-lg">
-                <InventoryLineChart categories2={categories2} trendData={trendData} />
-              </div>
-              <div className="flex flex-col w-1/2 gap-y-1 items-center justify-between bg-white rounded-xl p-6 shadow-lg">
-                <DeliveryDonutChart/>
-              </div>
+            <div className="flex flex-col w-1/2 gap-y-1 items-center justify-between bg-white rounded-xl p-6 shadow-lg">
+              <DeliveryDonutChart/>
             </div>
           </div>
 

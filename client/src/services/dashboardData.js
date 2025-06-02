@@ -134,12 +134,14 @@ export const analyticsData = {
   ]
 };
 
+const dashboardData = {
+    inventoryData,
+    supplierPerformanceData,
+    deliveryStatusData,
+    fleetActivityData,
+    orderStatistics,
+    analyticsData
+}
+
 // Export all data
-export default {
-  inventoryData,
-  supplierPerformanceData,
-  deliveryStatusData,
-  fleetActivityData,
-  orderStatistics,
-  analyticsData
-}; 
+export default dashboardData; 

@@ -41,7 +41,7 @@ export default function Sidebar() {
         <hr className="my-6 border-t border-dashed border-richblue-200 dark:border-richblue-700" />
 
         {/* Settings + Logout */}
-        <div>
+        <div className="space-y-3">
           <SidebarLink
             link={{ name: "Settings", path: "/dashboard/settings" }}
             iconName="VscSettingsGear"

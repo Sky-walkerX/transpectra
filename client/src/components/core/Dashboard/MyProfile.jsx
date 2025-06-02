@@ -42,7 +42,6 @@ const mockFleetData = [
 
 const FleetOverviewPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedStatus, setSelectedStatus] = useState("all");
   const dispatch = useDispatch();
   const user = useSelector((state) => state.profile?.user || null);
   const departedFleets = useSelector(

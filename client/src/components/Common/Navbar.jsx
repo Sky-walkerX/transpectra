@@ -43,7 +43,7 @@ function Navbar() {
   return (
     <div
       className={`w-full flex h-14 items-center justify-center ${
-        isHomePage ? "fixed top-0 left-0" + (isAtTop ? " bg-transparent h-20" : " bg-blu") : "bg-blu"
+        isHomePage ? "fixed top-0 left-0" + (isAtTop ? " bg-transparent h-20" : " bg-richblue-900") : "bg-richblue-900"
       } transition-all duration-200 z-50`}
     >
       <div className="flex w-10/12 h-14 max-w-maxContent items-center justify-between">

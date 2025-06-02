@@ -165,7 +165,7 @@ const Home = () => {
         </div>
       </section>
       {/* Footer Section */}
-      <footer className="bg-blu text-white py-8">
+      <footer className="bg-blue-900 text-white py-8">
         <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center md:justify-between gap-6">
           {/* Left: Logo & Copyright */}
           <div className="flex flex-col items-center md:items-start">
@@ -181,16 +181,16 @@ const Home = () => {
           </div>
           {/* Right: Social Icons */}
           <div className="flex gap-4 justify-center">
-            <a href="https://twitter.com/" target="_blank" rel="noopener noreferrer" aria-label="Twitter" className="h-10 w-10 rounded-full bg-blue-600 flex items-center justify-center text-llblue font-bold text-xl hover:opacity-80 transition duration-300">
+            <a href="https://twitter.com/" target="_blank" rel="noopener noreferrer" aria-label="Twitter" className="h-10 w-10 rounded-full bg-blue-400 flex items-center justify-center text-llblue font-bold text-xl hover:opacity-80 transition duration-300">
               <FaTwitter />
             </a>
-            <a href="https://linkedin.com/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="h-10 w-10 rounded-full bg-blue-600 flex items-center justify-center text-llblue font-bold text-xl hover:opacity-80 transition duration-300">
+            <a href="https://linkedin.com/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="h-10 w-10 rounded-full bg-blue-400 flex items-center justify-center text-llblue font-bold text-xl hover:opacity-80 transition duration-300">
               <FaLinkedinIn />
             </a>
-            <a href="https://facebook.com/" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="h-10 w-10 rounded-full bg-blue-600 flex items-center justify-center text-llblue font-bold text-xl hover:opacity-80 transition duration-300">
+            <a href="https://facebook.com/" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="h-10 w-10 rounded-full bg-blue-400 flex items-center justify-center text-llblue font-bold text-xl hover:opacity-80 transition duration-300">
               <FaFacebookF />
             </a>
-            <a href="mailto:info@transpectra.com" aria-label="Email" className="h-10 w-10 rounded-full bg-blue-600 flex items-center justify-center text-llblue font-bold text-xl hover:opacity-80 transition duration-300">
+            <a href="mailto:info@transpectra.com" aria-label="Email" className="h-10 w-10 rounded-full bg-blue-400 flex items-center justify-center text-llblue font-bold text-xl hover:opacity-80 transition duration-300">
               <FaEnvelope />
             </a>
           </div>

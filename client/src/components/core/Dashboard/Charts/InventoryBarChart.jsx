@@ -20,21 +20,24 @@ ChartJS.register(
   Legend
 );
 
-function InventoryBarChart({ categories, currentData, pastData }) {
+function InventoryBarChart({ categories = [], currentData = [], pastData = [] }) {
+  // Add console.log for debugging
+  console.log('Chart Data:', { categories, currentData, pastData });
+
   const data = {
     labels: categories,
     datasets: [
       {
         label: "Current Month",
-        data: currentData, // Example data for the current month
-        backgroundColor: "#98c3ec", // Light blue for current month
+        data: currentData,
+        backgroundColor: "#98c3ec",
         borderColor: "#032833",
         borderWidth: 1,
       },
       {
         label: "Past Month",
-        data: pastData, // Example data for the past month
-        backgroundColor: "#1866b4", // Dark blue for past month
+        data: pastData,
+        backgroundColor: "#1866b4",
         borderColor: "#032833",
         borderWidth: 1,
       },
@@ -44,6 +47,7 @@ function InventoryBarChart({ categories, currentData, pastData }) {
   // Options for the bar chart
   const options = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         position: "top",
@@ -88,8 +92,8 @@ function InventoryBarChart({ categories, currentData, pastData }) {
   };
 
   return (
-    <div className="w-full h-full items-center">
-      <Bar data={data} options={options} height="full" width="full" />
+    <div className="w-full h-[400px]">
+      <Bar data={data} options={options} />
     </div>
   );
 }

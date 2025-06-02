@@ -10,6 +10,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import { inventoryData } from "../../../../data/dashboardData";
 
 ChartJS.register(
   LineElement,
@@ -21,7 +22,7 @@ ChartJS.register(
   Legend
 );
 
-function InventoryLineChart({ categories2 = [], trendData = {} }) {
+function InventoryLineChart({ categories2 = inventoryData.categories, trendData = inventoryData.monthlyTrends }) {
   const [selectedCategory, setSelectedCategory] = useState(categories2[0] || "");
 
   useEffect(() => {
@@ -30,14 +31,17 @@ function InventoryLineChart({ categories2 = [], trendData = {} }) {
     }
   }, [categories2]);
 
+  // Add console.log for debugging
+  console.log('Line Chart Data:', { categories2, trendData, selectedCategory });
+
   const chartData = {
     labels: ["July", "Aug", "Sept", "Oct", "Nov"],
     datasets: [
       {
         label: `${selectedCategory} Monthly Stock Levels`,
-        data: trendData[selectedCategory] || Array(5).fill(0), // Fallback to zero data
+        data: trendData[selectedCategory] || Array(5).fill(0),
         borderColor: "#98c3ec",
-        backgroundColor: "rgba(202, 233, 255, 1)",
+        backgroundColor: "rgba(202, 233, 255, 0.3)",
         fill: true,
         tension: 0.4,
         pointBorderColor: "#032833",
@@ -54,7 +58,14 @@ function InventoryLineChart({ categories2 = [], trendData = {} }) {
     maintainAspectRatio: false,
     plugins: {
       legend: { display: false },
-      tooltip: { enabled: true },
+      tooltip: { 
+        enabled: true,
+        callbacks: {
+          label: function(context) {
+            return `${selectedCategory}: ${context.raw} units`;
+          }
+        }
+      },
     },
     scales: {
       x: {
@@ -70,7 +81,7 @@ function InventoryLineChart({ categories2 = [], trendData = {} }) {
         },
         ticks: { color: "#032833", beginAtZero: true },
         grid: { borderDash: [5, 5], color: "rgba(0, 0, 0, 0.1)" },
-        min: 0, 
+        min: 0,
       },
     },
     elements: {
@@ -87,18 +98,18 @@ function InventoryLineChart({ categories2 = [], trendData = {} }) {
   };
 
   return (
-    <div className="flex flex-col items-center w-full h-auto">
-      <h2 className="text-[18px] font-medium text-center text-bold text-richblue-600">
+    <div className="flex flex-col items-center w-full h-auto bg-white p-4 rounded-lg shadow-md">
+      <h2 className="text-[18px] font-medium text-center text-bold text-richblue-600 mb-4">
         Monthly Stock Levels by Category
       </h2>
-      <div className="w-full flex justify-evenly items-center p-2">
-        <h2 className="text-[14px]  font-medium text-center text-richblue-400">
+      <div className="w-full flex justify-evenly items-center p-2 mb-4">
+        <h2 className="text-[14px] font-medium text-center text-richblue-400">
           Select a Category:
         </h2>
         <select
           value={selectedCategory}
           onChange={handleCategoryChange}
-          className="border border-blue-600 py-2 px-4 rounded-lg text-sm ml-3 text-blue-700"
+          className="border border-blue-600 py-2 px-4 rounded-lg text-sm ml-3 text-blue-700 bg-white hover:bg-blue-50 transition-colors"
         >
           {categories2.map((category) => (
             <option key={category} value={category}>
@@ -108,7 +119,7 @@ function InventoryLineChart({ categories2 = [], trendData = {} }) {
         </select>
       </div>
 
-      <div className="w-full h-48">
+      <div className="w-full h-64">
         <Line data={chartData} options={options} />
       </div>
     </div>

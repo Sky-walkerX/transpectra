@@ -10,22 +10,15 @@ import ConfirmationModal from "../../Common/ConfirmationModal"
 import SidebarLink from "./SidebarLinks"
 
 export default function Sidebar() {
-  const { user, loading: profileLoading } = useSelector(
-    (state) => state.profile
-  )
-
-  console.log("this is user , i want to find the user type ",user?.accountType);
-
+  const { user, loading: profileLoading } = useSelector((state) => state.profile)
   const { loading: authLoading } = useSelector((state) => state.auth)
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const loading=false
-  // to keep track of confirmation modal
   const [confirmationModal, setConfirmationModal] = useState(null)
 
   if (profileLoading || authLoading) {
     return (
-      <div className="grid h-[calc(100vh-3.5rem)] min-w-[220px] items-center border-r-[1px] border-r-richblack-700 bg-richblack-800">
+      <div className="grid h-[calc(100vh-3.5rem)] min-w-[220px] items-center border-r border-richblue-700 bg-richblue-800">
         <div className="spinner"></div>
       </div>
     )
@@ -33,8 +26,9 @@ export default function Sidebar() {
 
   return (
     <>
-      <div className="flex  h-[calc(100vh-3.5rem)] min-w-[250px] flex-col border-r-[1px] border-r-richblue-700 bg-white pb-3">
-        <div className="flex flex-col">
+      <aside className="flex h-[calc(100vh-3.5rem)] min-w-[250px] flex-col justify-between border-r border-richblue-200 bg-white text-blue-5 px-4 py-6 shadow-sm dark:bg-richblue-700 dark:border-richblue-700">
+        {/* Navigation Links */}
+        <div className="flex flex-col gap-y-3">
           {sidebarLinks.map((link) => {
             if (link.type && user?.accountType !== link.type) return null
             return (
@@ -42,8 +36,12 @@ export default function Sidebar() {
             )
           })}
         </div>
-        <div className="mx-auto mt-6 mb-6 h-[1px] w-10/12 bg-richblack-700" />
-        <div className="flex flex-col">
+
+        {/* Divider */}
+        <hr className="my-6 border-t border-dashed border-richblue-200 dark:border-richblue-700" />
+
+        {/* Settings + Logout */}
+        <div>
           <SidebarLink
             link={{ name: "Settings", path: "/dashboard/settings" }}
             iconName="VscSettingsGear"
@@ -59,15 +57,15 @@ export default function Sidebar() {
                 btn2Handler: () => setConfirmationModal(null),
               })
             }
-            className="px-6 py-2 text-sm font-medium text-richblue-900"
+            className="flex items-center gap-3 w-full rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-richblue-500 transition"
           >
-            <div className="flex items-center gap-x-2">
-              <VscSignOut className="text-lg" />
-              <span>Logout</span>
-            </div>
+            <VscSignOut className="text-lg" />
+            <span>Logout</span>
           </button>
         </div>
-      </div>
+      </aside>
+
+      {/* Confirmation Modal */}
       {confirmationModal && <ConfirmationModal modalData={confirmationModal} />}
     </>
   )

@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import ProfileDropdown from "../core/ProfileDropDown";
 import logo from "../../assets/Images/Logo.png";
 import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 
 function Navbar() {
   const location = useLocation();
@@ -13,33 +14,54 @@ function Navbar() {
 
   // Check if the current page is the homepage to make the navbar fully transparent
   const isHomePage = location.pathname === "/";
+  
+  // Check if the navbar is at the top of the page
+  const [isAtTop, setIsAtTop] = useState(true);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY === 0) {
+        setIsAtTop(true);
+      } else {
+        setIsAtTop(false);
+      }
+    };
+
+    // Call once to set initial state
+    handleScroll();
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   if (hideNavbar) {
     return null;
   }
 
+
+
   return (
     <div
-      className={`w-full flex h-12 items-center justify-center ${
-        isHomePage ? "fixed top-0 left-0 bg-transparent" : "bg-blu"
+      className={`w-full flex h-14 items-center justify-center ${
+        isHomePage ? "fixed top-0 left-0" + (isAtTop ? " bg-transparent h-20" : " bg-blu") : "bg-blu"
       } transition-all duration-200 z-50`}
     >
-      <div className="flex w-10/12 max-w-maxContent items-center justify-between">
-        <Link to="/">
-          <img src={logo} alt="Logo" className={` ${ isHomePage ? "h-18 w-40 mt-3" : "w-36 h-12 py-2"} py-2 pl-6 `}/>
+      <div className="flex w-10/12 h-14 max-w-maxContent items-center justify-between">
+        <Link to="/" className="flex items-center h-14">
+          <img src={logo} alt="Logo" className={`h-full transition-all duration-300 object-contain py-1 pl-6 ${isAtTop && isHomePage ? "scale-125" : ""}`}/>
         </Link>
         {/* Login / Signup / Dashboard */}
-        <div className="hidden items-center gap-x-4 md:flex">
+        <div className="items-center gap-x-4 md:flex">
           {token === null && (
             <Link to="/login">
-              <button className="rounded-[5px] border border-blu bg-richblue-5 px-[17px] py-[3px] text-richblue-700">
+              <button className="rounded-md bg-richblue-5 px-5 py-2 text-richblue-700 font-medium transition-all duration-200 hover:outline hover:outline-2 hover:outline-richblue-100 hover:outline-offset-2 focus:outline focus:outline-2 focus:outline-richblue-100 focus:outline-offset-2">
                 Log In
               </button>
             </Link>
           )}
           {token === null && (
             <Link to="/signup">
-              <button className="rounded-[5px] border border-blu bg-richblue-5 px-[17px] py-[3px] text-richblue-700">
+              <button className="rounded-md bg-richblue-5 px-5 py-2 text-richblue-700 font-medium transition-all duration-200 hover:outline hover:outline-2 hover:outline-richblue-100 hover:outline-offset-2 focus:outline focus:outline-2 focus:outline-richblue-100 focus:outline-offset-2">
                 Sign Up
               </button>
             </Link>

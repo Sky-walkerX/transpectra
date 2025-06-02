@@ -118,10 +118,11 @@ app.use(CONFIG.APIS.delivery, DeliveryRoutes);
 app.use(CONFIG.APIS.Order, OrderRoutes);
 app.use(CONFIG.APIS.ManufacturerFetch, ManufacturerFetchRoute)
 app.use(CONFIG.APIS.inventory, inventoryRoutes)
-
 app.use(CONFIG.APIS.forecast, forecastRoutes);
 app.use(CONFIG.APIS.routeTracking, routeTracking)
 app.use(CONFIG.APIS.pdf, pdfRoutes)
+app.use(CONFIG.APIS.dashboard, require("./routes/dashboard"));
+
 // Listening to the server
 app.listen(PORT, () => {
     console.log(`App is listening at ${PORT}`)

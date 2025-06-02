@@ -62,36 +62,54 @@ const FleetOverviewPage = () => {
   // Mock data for yard activities
   const yardActivities = [
     {
-      id: 1,
-      type: "loading",
-      status: "completed",
-      time: "09:00 AM",
-      location: "Dock A",
-      details: "Loaded 25 pallets of electronics",
+      licenseNumber: "TRK004",
+      driver: "Alex Wilson",
+      arrivalTime: "2024-03-20T09:00:00",
+      departureTime: "2024-03-20T11:30:00",
+      purpose: "Loading",
+      yard: { dock: "Dock A" },
+      yardManager: { email: "alex.w@example.com" },
+      productsLink: true,
+      status: "Completed",
+      details: "Loaded 25 pallets of electronics"
     },
     {
-      id: 2,
-      type: "unloading",
-      status: "in-progress",
-      time: "10:30 AM",
-      location: "Dock B",
-      details: "Unloading 15 containers of furniture",
+      licenseNumber: "TRK005",
+      driver: "Emma Davis",
+      arrivalTime: "2024-03-20T10:15:00",
+      departureTime: null,
+      purpose: "Unloading",
+      yard: { dock: "Dock B" },
+      yardManager: { email: "emma.d@example.com" },
+      productsLink: true,
+      status: "In Progress",
+      details: "Unloading 15 containers of furniture"
     },
     {
-      id: 3,
-      type: "inspection",
-      status: "scheduled",
-      time: "02:00 PM",
-      location: "Warehouse C",
-      details: "Routine safety inspection",
-    },
+      licenseNumber: "TRK006",
+      driver: "James Miller",
+      arrivalTime: "2024-03-20T08:45:00",
+      departureTime: "2024-03-20T10:30:00",
+      purpose: "Inspection",
+      yard: { dock: "Dock C" },
+      yardManager: { email: "james.m@example.com" },
+      productsLink: true,
+      status: "Completed",
+      details: "Routine safety inspection completed"
+    }
   ];
 
+  // Combine all data
+  const allActivities = [...allFleetData, ...yardActivities];
+
   // Filter activities based on search term and selected activity
-  const filteredActivities = yardActivities.filter(activity => {
-    const matchesSearch = activity.details.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         activity.location.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesActivity = selectedActivity === "all" || activity.type === selectedActivity;
+  const filteredActivities = allActivities.filter(activity => {
+    const matchesSearch = 
+      activity.licenseNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      activity.driver.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      activity.yard.dock.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      activity.details?.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesActivity = selectedActivity === "all" || activity.purpose.toLowerCase() === selectedActivity;
     return matchesSearch && matchesActivity;
   });
 
@@ -231,43 +249,45 @@ const FleetOverviewPage = () => {
                 <div className="space-y-4">
                   {filteredActivities.map((activity) => (
                     <div
-                      key={activity.id}
+                      key={activity.licenseNumber}
                       className="bg-gray-50 rounded-xl p-4 hover:bg-gray-100 transition-colors"
                     >
                       <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-4">
                           <div className={`p-2 rounded-lg ${
-                            activity.type === "loading"
+                            activity.purpose === "Loading"
                               ? "bg-green-100"
-                              : activity.type === "unloading"
+                              : activity.purpose === "Unloading"
                               ? "bg-blue-100"
                               : "bg-yellow-100"
                           }`}>
                             <span className={`text-sm font-medium ${
-                              activity.type === "loading"
+                              activity.purpose === "Loading"
                                 ? "text-green-600"
-                                : activity.type === "unloading"
+                                : activity.purpose === "Unloading"
                                 ? "text-blue-600"
                                 : "text-yellow-600"
                             }`}>
-                              {activity.type.charAt(0).toUpperCase() + activity.type.slice(1)}
+                              {activity.purpose}
                             </span>
                           </div>
                           <div>
-                            <p className="text-gray-900 font-medium">{activity.details}</p>
-                            <p className="text-sm text-gray-500">{activity.location}</p>
+                            <p className="text-gray-900 font-medium">{activity.details || `${activity.purpose} operation`}</p>
+                            <p className="text-sm text-gray-500">Dock: {activity.yard.dock} | Driver: {activity.driver}</p>
                           </div>
                         </div>
                         <div className="flex items-center space-x-4">
-                          <span className="text-sm text-gray-500">{activity.time}</span>
+                          <span className="text-sm text-gray-500">
+                            {new Date(activity.arrivalTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                          </span>
                           <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                            activity.status === "completed"
+                            activity.status === "Completed"
                               ? "bg-green-100 text-green-600"
-                              : activity.status === "in-progress"
+                              : activity.status === "In Progress"
                               ? "bg-blue-100 text-blue-600"
                               : "bg-yellow-100 text-yellow-600"
                           }`}>
-                            {activity.status.charAt(0).toUpperCase() + activity.status.slice(1)}
+                            {activity.status}
                           </span>
                         </div>
                       </div>

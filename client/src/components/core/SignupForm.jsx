@@ -1,3 +1,5 @@
+"use client"
+
 import { useState } from "react"
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"
 import { toast } from "react-hot-toast"
@@ -17,12 +19,12 @@ function SignupForm() {
     email: "",
     password: "",
     confirmPassword: "",
-    contactNumber: "",  
+    contactNumber: "",
   })
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
 
-  const { firstName, lastName, email, password, confirmPassword, contactNumber} = formData
+  const { firstName, lastName, email, password, confirmPassword, contactNumber } = formData
 
   const handleOnChange = (e) => {
     setFormData((prevData) => ({
@@ -47,7 +49,6 @@ function SignupForm() {
     dispatch(setSignupData(signupData))
     // Send OTP to user for verification
     dispatch(sendOtp(formData.email, navigate))
-    // Handle signup logic here (e.g., dispatch action, API call)
     // Reset form after submission
     setFormData({
       firstName: "",
@@ -61,47 +62,61 @@ function SignupForm() {
   }
 
   return (
-    <div>
+    <div className="w-full">
       {/* Role Selection */}
-      <div className="flex gap-x-3 mb-4 mt-3">
-        <label className="text-[0.875rem] leading-[1.075rem] text-richblue-700">
-          <input
-            type="radio"
-            name="accountType"
-            value="Supplier"
-            checked={accountType === ACCOUNT_TYPE.SUPPLIER}
-            onChange={() => setAccountType(ACCOUNT_TYPE.SUPPLIER)}
-          />
-          Manufacturer
-        </label>
-        <label className="text-[0.875rem] leading-[1.075rem] text-richblue-700">
-          <input
-            type="radio"
-            name="accountType"
-            value="Warehouse_Manager"
-            checked={accountType === ACCOUNT_TYPE.WAREHOUSE_MANAGER}
-            onChange={() => setAccountType(ACCOUNT_TYPE.WAREHOUSE_MANAGER)}
-          />
-          Warehouse Manager
-        </label>
-        <label className="text-[0.875rem] leading-[1.075rem] text-richblue-700">
-          <input
-            type="radio"
-            name="accountType"
-            value="yard_manager"
-            checked={accountType === ACCOUNT_TYPE.YARD_MANAGER}
-            onChange={() => setAccountType(ACCOUNT_TYPE.YARD_MANAGER)}
-          />
-          Yard Manager
-        </label>
+      <div className="mb-6 mt-2">
+        <p className="mb-3 text-sm font-medium text-gray-700">Select Account Type</p>
+        <div className="flex flex-wrap gap-4">
+          <label className="flex items-center gap-2 cursor-pointer group">
+            <div className="relative">
+              <input
+                type="radio"
+                name="accountType"
+                value="Supplier"
+                checked={accountType === ACCOUNT_TYPE.SUPPLIER}
+                onChange={() => setAccountType(ACCOUNT_TYPE.SUPPLIER)}
+                className="appearance-none h-5 w-5 rounded-full border border-gray-300 checked:border-blue-600 checked:border-4 transition-all focus:outline-none focus:ring-2 focus:ring-blue-200"
+              />
+            </div>
+            <span className="text-sm text-gray-700 group-hover:text-blue-700 transition">Manufacturer</span>
+          </label>
+
+          <label className="flex items-center gap-2 cursor-pointer group">
+            <div className="relative">
+              <input
+                type="radio"
+                name="accountType"
+                value="Warehouse_Manager"
+                checked={accountType === ACCOUNT_TYPE.WAREHOUSE_MANAGER}
+                onChange={() => setAccountType(ACCOUNT_TYPE.WAREHOUSE_MANAGER)}
+                className="appearance-none h-5 w-5 rounded-full border border-gray-300 checked:border-blue-600 checked:border-4 transition-all focus:outline-none focus:ring-2 focus:ring-blue-200"
+              />
+            </div>
+            <span className="text-sm text-gray-700 group-hover:text-blue-700 transition">Warehouse Manager</span>
+          </label>
+
+          <label className="flex items-center gap-2 cursor-pointer group">
+            <div className="relative">
+              <input
+                type="radio"
+                name="accountType"
+                value="yard_manager"
+                checked={accountType === ACCOUNT_TYPE.YARD_MANAGER}
+                onChange={() => setAccountType(ACCOUNT_TYPE.YARD_MANAGER)}
+                className="appearance-none h-5 w-5 rounded-full border border-gray-300 checked:border-blue-600 checked:border-4 transition-all focus:outline-none focus:ring-2 focus:ring-blue-200"
+              />
+            </div>
+            <span className="text-sm text-gray-700 group-hover:text-blue-700 transition">Yard Manager</span>
+          </label>
+        </div>
       </div>
 
       {/* Form */}
-      <form onSubmit={handleOnSubmit} className="flex w-full flex-col gap-y-4">
-        <div className="flex gap-x-4">
-          <label>
-            <p className="mb-1 text-[0.675rem] leading-[0.775rem] text-richblue-500">
-              First Name <sup className="text-pink-200">*</sup>
+      <form onSubmit={handleOnSubmit} className="flex w-full flex-col gap-y-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <label className="block">
+            <p className="mb-1.5 text-sm font-medium text-gray-700">
+              First Name <sup className="text-red-500">*</sup>
             </p>
             <input
               required
@@ -110,12 +125,13 @@ function SignupForm() {
               value={firstName}
               onChange={handleOnChange}
               placeholder="Enter first name"
-              className="bg-blue-5 text-richblue-600 py-1 px-3 rounded-md w-full"
+              className="w-full rounded-md bg-gray-50 px-4 py-2.5 text-gray-800 placeholder:text-gray-400 border border-gray-200 focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-300 transition-all duration-200"
             />
           </label>
-          <label>
-            <p className="mb-1 text-[0.675rem] leading-[0.775rem] text-richblue-500">
-              Last Name <sup className="text-pink-200">*</sup>
+
+          <label className="block">
+            <p className="mb-1.5 text-sm font-medium text-gray-700">
+              Last Name <sup className="text-red-500">*</sup>
             </p>
             <input
               required
@@ -124,13 +140,14 @@ function SignupForm() {
               value={lastName}
               onChange={handleOnChange}
               placeholder="Enter last name"
-              className="bg-blue-5 text-richblue-600 py-1 px-3 rounded-md w-full"
+              className="w-full rounded-md bg-gray-50 px-4 py-2.5 text-gray-800 placeholder:text-gray-400 border border-gray-200 focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-300 transition-all duration-200"
             />
           </label>
         </div>
-        <label className="w-full">
-          <p className="mb-1 text-[0.675rem] leading-[0.775rem] text-richblue-500">
-            Email Address <sup className="text-pink-200">*</sup>
+
+        <label className="block">
+          <p className="mb-1.5 text-sm font-medium text-gray-700">
+            Email Address <sup className="text-red-500">*</sup>
           </p>
           <input
             required
@@ -139,12 +156,13 @@ function SignupForm() {
             value={email}
             onChange={handleOnChange}
             placeholder="Enter email address"
-            className="bg-blue-5 text-richblue-600 py-1 px-3 rounded-md w-full"
+            className="w-full rounded-md bg-gray-50 px-4 py-2.5 text-gray-800 placeholder:text-gray-400 border border-gray-200 focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-300 transition-all duration-200"
           />
         </label>
-        <label className="w-full">
-          <p className="mb-1 text-[0.675rem] leading-[0.775rem] text-richblue-500">
-            Contact Number <sup className="text-pink-200">*</sup>
+
+        <label className="block">
+          <p className="mb-1.5 text-sm font-medium text-gray-700">
+            Contact Number <sup className="text-red-500">*</sup>
           </p>
           <input
             required
@@ -153,14 +171,14 @@ function SignupForm() {
             value={contactNumber}
             onChange={handleOnChange}
             placeholder="Enter your contact number"
-            className="bg-blue-5 text-richblue-600 py-1 px-3 rounded-md w-full"
+            className="w-full rounded-md bg-gray-50 px-4 py-2.5 text-gray-800 placeholder:text-gray-400 border border-gray-200 focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-300 transition-all duration-200"
           />
         </label>
-      
-        <div className="flex gap-x-4">
-          <label className="relative w-full">
-            <p className="mb-1 text-[0.675rem] leading-[0.775rem] text-richblue-500">
-              Create Password <sup className="text-pink-200">*</sup>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <label className="block relative">
+            <p className="mb-1.5 text-sm font-medium text-gray-700">
+              Create Password <sup className="text-red-500">*</sup>
             </p>
             <input
               required
@@ -169,22 +187,20 @@ function SignupForm() {
               value={password}
               onChange={handleOnChange}
               placeholder="Enter Password"
-              className="bg-blue-5 text-richblue-600 py-1 px-3 rounded-md w-full"
+              className="w-full rounded-md bg-gray-50 px-4 py-2.5 text-gray-800 placeholder:text-gray-400 border border-gray-200 focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-300 transition-all duration-200 pr-10"
             />
-            <span
+            <button
+              type="button"
               onClick={() => setShowPassword((prev) => !prev)}
-              className="absolute right-3 top-[22px] z-[10] cursor-pointer"
+              className="absolute right-3 top-[34px] text-gray-500 hover:text-gray-700 transition-colors"
             >
-              {showPassword ? (
-                <AiOutlineEyeInvisible fontSize={22} fill="#AFB2BF" />
-              ) : (
-                <AiOutlineEye fontSize={22} fill="#AFB2BF" />
-              )}
-            </span>
+              {showPassword ? <AiOutlineEyeInvisible className="h-5 w-5" /> : <AiOutlineEye className="h-5 w-5" />}
+            </button>
           </label>
-          <label className="relative w-full">
-            <p className="mb-1 text-[0.675rem] leading-[0.775rem] text-richblue-500">
-              Confirm Password <sup className="text-pink-200">*</sup>
+
+          <label className="block relative">
+            <p className="mb-1.5 text-sm font-medium text-gray-700">
+              Confirm Password <sup className="text-red-500">*</sup>
             </p>
             <input
               required
@@ -193,26 +209,27 @@ function SignupForm() {
               value={confirmPassword}
               onChange={handleOnChange}
               placeholder="Confirm Password"
-              className="bg-blue-5 text-richblue-600 py-1 px-3 rounded-md w-full!pr-10"
+              className="w-full rounded-md bg-gray-50 px-4 py-2.5 text-gray-800 placeholder:text-gray-400 border border-gray-200 focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-300 transition-all duration-200 pr-10"
             />
-            <span
+            <button
+              type="button"
               onClick={() => setShowConfirmPassword((prev) => !prev)}
-              className="absolute right-3 top-[22px] z-[10] cursor-pointer"
+              className="absolute right-3 top-[34px] text-gray-500 hover:text-gray-700 transition-colors"
             >
               {showConfirmPassword ? (
-                <AiOutlineEyeInvisible fontSize={22} fill="#AFB2BF" />
+                <AiOutlineEyeInvisible className="h-5 w-5" />
               ) : (
-                <AiOutlineEye fontSize={22} fill="#AFB2BF" />
+                <AiOutlineEye className="h-5 w-5" />
               )}
-            </span>
+            </button>
           </label>
         </div>
 
         <button
           type="submit"
-          className="bg-blu text-richblack-800 py-2 px-6 rounded-md mt-4 w-full"
+          className="mt-2 w-full rounded-md bg-blue-600 py-3 px-6 text-base font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200"
         >
-          Sign Up
+          Create Account
         </button>
       </form>
     </div>

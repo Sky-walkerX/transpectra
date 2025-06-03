@@ -1,3 +1,5 @@
+"use client"
+
 import { useState } from "react"
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"
 import { useDispatch } from "react-redux"
@@ -30,14 +32,11 @@ function LoginForm() {
   }
 
   return (
-    <form
-      onSubmit={handleOnSubmit}
-      className="mt-7 flex flex-col gap-y-4"
-    >
+    <form onSubmit={handleOnSubmit} className="mt-2 flex flex-col gap-y-5">
       {/* Email Field */}
-      <label className="w-full">
-        <p className="mb-1 text-sm font-medium text-richblue-600">
-          Email <sup className="text-pink-500">*</sup>
+      <label className="block">
+        <p className="mb-1.5 text-sm font-medium text-gray-700">
+          Email Address <sup className="text-red-500">*</sup>
         </p>
         <input
           required
@@ -46,14 +45,13 @@ function LoginForm() {
           value={email}
           onChange={handleOnChange}
           placeholder="Enter email address"
-          className="w-full rounded-md bg-richblue-5 px-4 py-2 text-sm text-richblue-900 placeholder:text-richblue-300 focus:outline-none focus:ring-2 focus:ring-richblue-300 transition"
+          className="w-full rounded-md bg-gray-50 px-4 py-2.5 text-gray-800 placeholder:text-gray-400 border border-gray-200 focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-300 transition-all duration-200"
         />
       </label>
 
-      {/* Password Field */}
-      <label className="relative w-full">
-        <p className="mb-1 text-sm font-medium text-richblue-600">
-          Password <sup className="text-pink-500">*</sup>
+      <label className="block relative">
+        <p className="mb-1.5 text-sm font-medium text-gray-700">
+          Password <sup className="text-red-500">*</sup>
         </p>
         <input
           required
@@ -62,29 +60,25 @@ function LoginForm() {
           value={password}
           onChange={handleOnChange}
           placeholder="Enter password"
-          className="w-full rounded-md bg-richblue-5 px-4 py-2 pr-10 text-sm text-richblue-900 placeholder:text-richblue-300 focus:outline-none focus:ring-2 focus:ring-richblue-300 transition"
+          className="w-full rounded-md bg-gray-50 px-4 py-2.5 text-gray-800 placeholder:text-gray-400 border border-gray-200 focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-300 transition-all duration-200 pr-10"
         />
-        <span
+        <button
+          type="button"
           onClick={() => setShowPassword((prev) => !prev)}
-          className="absolute right-3 top-1/2 -mt-2 cursor-pointer text-richblue-400 hover:text-richblue-600 transition"
+          className="absolute right-3 top-[34px] text-gray-500 hover:text-gray-700 transition-colors"
         >
-          {showPassword ? (
-            <AiOutlineEyeInvisible fontSize={20} />
-          ) : (
-            <AiOutlineEye fontSize={20} />
-          )}
-        </span>
+          {showPassword ? <AiOutlineEyeInvisible className="h-5 w-5" /> : <AiOutlineEye className="h-5 w-5" />}
+        </button>
         <Link to="/forgot-password">
-          <p className="mt-1 text-right text-xs text-blue-500 hover:underline">
+          <p className="mt-2 text-right text-sm text-blue-600 hover:text-blue-800 hover:underline transition-colors">
             Forgot Password?
           </p>
         </Link>
       </label>
 
-      {/* Submit Button */}
       <button
         type="submit"
-        className="mt-4 rounded-md bg-richblue-700 px-4 py-2 text-sm font-semibold text-white hover:bg-richblue-800 transition focus:outline-none focus:ring-2 focus:ring-richblue-400"
+        className="mt-2 w-full rounded-md bg-blue-600 py-3 px-6 text-base font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200"
       >
         Sign In
       </button>

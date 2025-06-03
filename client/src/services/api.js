@@ -17,7 +17,7 @@ export const endpoints = {
   // Fleet APIs for Yard management
   ADD_FLEET_IN_YARD_API:BASE_URL+"/fleet/add",
   FETCH_FLEET_YARD:BASE_URL+"/fleet/available",
-  MARK_AS_DEPARTED_API:BASE_URL+"/fleet//trucks/departed",
+  MARK_AS_DEPARTED_API:BASE_URL+"/fleet/trucks/departed",
   FETCH_DEPARTED_TRUCKS_API:BASE_URL+"/fleet/departed",
   //Orders creation and fetching 
   CREATE_ORDER_API:BASE_URL+"/order/create",

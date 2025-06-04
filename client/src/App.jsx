@@ -34,6 +34,9 @@ import { fetchYardDetails } from "./services/oparations/YardAPI";
 import FetchedDeliveries from "./components/core/Dashboard/fetchedDeliveries";
 import RouteDetails from "./components/core/Dashboard/RouteDetails";
 import { setToken } from "./slices/authSlice";
+import AboutUs from "./components/core/AboutUs";
+import Services from "./components/core/Services";
+import ContactUs from "./components/core/ContactUs"; // Assuming you have a ContactUs component
 
 function App() {
   const navigate = useNavigate();
@@ -78,6 +81,9 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/about" element={<AboutUs />} />
+        <Route path="/services" element={<Services />} />
+        <Route path="/contact" element={<ContactUs />} />
         <Route path="/verify-email" element={<VerifyEmail />} />
         <Route path="/warehouse-form" element={<WarehouseForm />} />
         <Route path="/yard-form" element={<YardForm />} />

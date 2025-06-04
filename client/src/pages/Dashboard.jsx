@@ -4,7 +4,7 @@ import { Outlet } from "react-router-dom";
 import Sidebar from "../components/core/Dashboard/Sidebar";
 
 function Dashboard() {
-  const { loading: profileLoading } = useSelector((state) => state.profile);
+  const { loading: profileLoading } = useSelector((state) => state.auth);
   const { loading: authLoading } = useSelector((state) => state.auth);
 
   if (profileLoading || authLoading) {

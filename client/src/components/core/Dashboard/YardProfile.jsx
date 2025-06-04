@@ -6,7 +6,7 @@ import { useEffect } from "react";
 
 export default function YardProfile() {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.profile?.user || null); // Ensure user exists
+  const user = useSelector((state) => state.auth?.user || null); // Ensure user exists
   const warehouse = useSelector((state) => state.warehouse?.warehouse || null); // Fetch warehouse details
   const navigate = useNavigate();
 

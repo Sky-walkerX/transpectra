@@ -27,25 +27,28 @@ const cors = require("cors") //backend should entertain frontend's request
 const { cloudinaryConnect } = require("./config/cloudinary")
 //const fileUpload = require("express-fileupload")
 
+
+
+app.use(express.json());
+app.use(cookieParser());
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
+
 // Middlewares
 app.use(
     cors({
-        origin: 3000, // Ensure process.env.CLIENT is set to "http://localhost:3000"
+        origin: "http://localhost:3000", // Ensure process.env.CLIENT is set to "http://localhost:3000"
         credentials: true, // Allow credentials
         methods: "GET,POST,PUT,DELETE,OPTIONS",
         allowedHeaders: "Content-Type,Authorization",
     })
 );
 
-app.use(express.json());
-app.use(cookieParser());
-app.use(express.urlencoded({ limit: '50mb', extended: true }));
-app.use(
-    cors({
-        origin: process.env.CLIENT,
-        credentials: true,
-    })
-)
+// app.use(
+//     cors({
+//         origin: process.env.CLIENT,
+//         credentials: true,
+//     })
+// )
 // app.use(
 //     fileUpload({
 //         useTempFiles: true,

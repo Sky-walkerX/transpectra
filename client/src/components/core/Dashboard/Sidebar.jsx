@@ -10,19 +10,20 @@ import ConfirmationModal from "../../Common/ConfirmationModal"
 import SidebarLink from "./SidebarLinks"
 
 export default function Sidebar() {
-  const { user, loading: profileLoading } = useSelector((state) => state.profile)
-  const { loading: authLoading } = useSelector((state) => state.auth)
+  const { user, loading: authLoading } = useSelector((state) => state.auth)
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const [confirmationModal, setConfirmationModal] = useState(null)
 
-  if (profileLoading || authLoading) {
+  if (authLoading) {
     return (
       <div className="grid h-[calc(100vh-3.5rem)] min-w-[220px] items-center border-r border-richblue-700 bg-richblue-800">
         <div className="spinner"></div>
       </div>
     )
   }
+
+  console.log("Sidebar user:", user)
 
   return (
     <>

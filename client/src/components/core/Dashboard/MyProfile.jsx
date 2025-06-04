@@ -45,7 +45,7 @@ const mockFleetData = [
 const FleetOverviewPage = () => {
   const [searchTerm, setSearchTerm] = useState("")
   const dispatch = useDispatch()
-  const user = useSelector((state) => state.profile?.user || null)
+  const user = useSelector((state) => state.auth?.user || null)
   const departedFleets = useSelector((state) => state.departedFleet?.departedFleets || [])
 
   // Combine API data with mock data for demonstration

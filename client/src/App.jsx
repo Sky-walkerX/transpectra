@@ -38,7 +38,7 @@ import { setToken } from "./slices/authSlice";
 function App() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.profile);
+  const { user } = useSelector((state) => state.auth);
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
     console.log("8888888888888888888888888900000000"+storedToken);

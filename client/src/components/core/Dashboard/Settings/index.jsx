@@ -5,7 +5,7 @@ import EditProfile from "./EditProfile"
 import { useDispatch, useSelector } from "react-redux";
 
 export default function Settings() {
-  const user = useSelector((state) => state.profile?.user || null);
+  const user = useSelector((state) => state.auth?.user || null);
   const isStore = user?.accountType === "Warehouse_Manager" ;
   const isYard = user?.accountType === "Yard_managers" ;
   return (

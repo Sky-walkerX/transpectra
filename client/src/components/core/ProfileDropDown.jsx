@@ -8,7 +8,7 @@ import useOnClickOutside from "../../hooks/useOnClickOutside"
 import { logout } from "../../services/oparations/authAPI"
 
 export default function ProfileDropdown() {
-  const { user } = useSelector((state) => state.profile)
+  const { user } = useSelector((state) => state.auth)
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const [open, setOpen] = useState(false)

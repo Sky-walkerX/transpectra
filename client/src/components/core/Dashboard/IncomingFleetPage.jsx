@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 
 const IncomingFleetPage = () => {
   const dispatch=useDispatch();
-  const user = useSelector((state) => state.profile?.user || null);
+  const user = useSelector((state) => state.auth?.user || null);
   const [formData, setFormData] = useState({
     vehicleLicensePlate: '',
     driverName: '',

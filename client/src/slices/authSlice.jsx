@@ -1,32 +1,54 @@
 import { createSlice } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
 
+// Get initial state from localStorage if available
 const initialState = {
   signupData: null,
-  loading: false,
   token: localStorage.getItem("token") || null,
+  loading: false,
+  user: JSON.parse(localStorage.getItem("user")) || null,
 };
 
 const authSlice = createSlice({
   name: "auth",
-  initialState: initialState,
+  initialState,
   reducers: {
-    setSignupData(state, value) {
-      state.signupData = value.payload;
+    setSignupData: (state, action) => {
+      state.signupData = action.payload;
     },
-    setLoading(state, value) {
-      state.loading = value.payload;
+    setToken: (state, action) => {
+      state.token = action.payload;
+      // Persist token to localStorage
+      if (action.payload) {
+        localStorage.setItem("token", action.payload);
+      } else {
+        localStorage.removeItem("token");
+      }
     },
-    setToken(state, value) {
-      state.token = value.payload;
+    setLoading: (state, action) => {
+      state.loading = action.payload;
     },
-    clearToken(state) {
+    setUser: (state, action) => {
+      console.log("Setting user in Redux:", action.payload);
+      state.user = action.payload;
+      // Persist user to localStorage
+      if (action.payload) {
+        localStorage.setItem("user", JSON.stringify(action.payload));
+      } else {
+        localStorage.removeItem("user");
+      }
+    },
+    logout: (state) => {
       state.token = null;
-      Cookies.remove("token");
+      state.user = null;
+      state.signupData = null;
+      // Clear localStorage on logout
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
     },
   },
 });
 
-export const { setSignupData, setLoading, setToken, clearToken } = authSlice.actions;
+export const { setSignupData, setToken, setLoading, setUser, logout } = authSlice.actions;
 
 export default authSlice.reducer;

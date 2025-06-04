@@ -7,7 +7,7 @@ import {toast} from "react-hot-toast"
 
 export default function ChangeProfilePicture() {
   const { token } = useSelector((state) => state.auth);
-  const { user } = useSelector((state) => state.profile);
+  const { user } = useSelector((state) => state.auth);
   const company = useSelector((state) => state.company?.company || null);
   const warehouse = useSelector((state) => state.warehouse?.warehouse || null);
   const isWarehouseManager = user?.accountType === "Warehouse_Manager";

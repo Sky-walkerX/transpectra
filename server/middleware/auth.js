@@ -8,50 +8,59 @@ const DistributionCenter = require('../models/DistributionCenter')
 
 // This function is used as middleware to authenticate user requests
 exports.auth = async (req, res, next) => {
+    console.log("\n=== Auth Middleware Debug ===");
+    console.log("Request URL:", req.originalUrl);
+    console.log("Request Method:", req.method);
+    console.log("Request Headers:", JSON.stringify(req.headers, null, 2));
+    console.log("Request Cookies:", JSON.stringify(req.cookies, null, 2));
+    console.log("Request Body:", JSON.stringify(req.body, null, 2));
+
     try {
-        // Extracting JWT from request cookies, body or header
+        // Get token from Authorization header or cookies
+        let token = null;
 
-        const token =
-            req.cookies.token ||
-            req.body.token ||
-            req.header("Authorization").replace("Bearer ", "");
-
-        // const storeToken =
-        //     req.cookies.storeToken ||
-        //     req.body.storeToken ||
-        //     req.header("Store-X-token").replace("Bearer ", "");
-
-        //     console.log("this is cookie",req.cookies)
-             
-
-        // If JWT is missing, return 401 Unauthorized response
-        if (!token) {
-            return res.status(401).json({ success: false, message: `Token Missing` });
+        // Check Authorization header first
+        const authHeader = req.headers.authorization;
+        if (authHeader && authHeader.startsWith('Bearer ')) {
+            token = authHeader.split(' ')[1];
+            console.log("Token found in Authorization header");
+        }
+        // Then check cookies
+        else if (req.cookies.token) {
+            token = req.cookies.token;
+            console.log("Token found in cookies");
         }
 
+        if (!token) {
+            console.log("No token found in any source");
+            return res.status(401).json({
+                success: false,
+                message: "Authentication token missing"
+            });
+        }
 
         try {
-            // Verifying the JWT using the secret key stored in environment variables
-            const decode = await jwt.verify(token, CONFIG.JWT.TOKEN);
-            // const storedecode = await jwt.verify(storeToken, CONFIG.JWT.TOKEN);
-
-            // Storing the decoded JWT payload in the request object for further use
-            req.user = decode;
-            // req.store = storedecode;
+            console.log("JWT Secret:", "2187937891634982701" ? "Present" : "Missing");
+            // Verify token
+            const decoded = jwt.verify(token, "2187937891634982701");
+            console.log("Token verified successfully. User:", decoded.email);
+            
+            // Attach user to request
+            req.user = decoded;
+            console.log("User data attached to request");
+            next();
         } catch (error) {
-            // If JWT verification fails, return 401 Unauthorized response
-            return res
-                .status(401)
-                .json({ success: false, message: "token is invalid" });
+            console.error("Token verification failed:", error.message);
+            return res.status(401).json({
+                success: false,
+                message: "Invalid token"
+            });
         }
-
-        // If JWT is valid, move on to the next middleware or request handler
-        next();
     } catch (error) {
-        // If there is an error during the authentication process, return 401 Unauthorized response
+        console.error("Auth middleware error:", error);
         return res.status(401).json({
             success: false,
-            message: `Something Went Wrong While Validating the Token`,
+            message: "Authentication failed"
         });
     }
 };

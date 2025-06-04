@@ -10,7 +10,7 @@ const FleetActivity = () => {
   const [expandedTruck, setExpandedTruck] = useState(null); // Track expanded truck for product view
 
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.profile?.user || null); // Get user details
+  const user = useSelector((state) => state.auth?.user || null); // Get user details
   const fleetData = useSelector((state) => state.fleet?.fleet || []); // Get fleet data from Redux
 
   useEffect(() => {

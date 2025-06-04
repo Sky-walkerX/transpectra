@@ -5,7 +5,7 @@ import { updateProfile } from "../../../../services/oparations/SettingsAPI"
 import IconBtn from "../../../Common/IconBtn"
 
 export default function EditProfile() {
-  const { user } = useSelector((state) => state.profile)
+  const { user } = useSelector((state) => state.auth)
   const { token } = useSelector((state) => state.auth)
   const warehouseData = useSelector((state) => state.warehouse?.warehouse);
   const company = useSelector((state) => state.company?.company || null);

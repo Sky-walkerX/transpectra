@@ -195,7 +195,7 @@ exports.login = async (req, res) => {
             if (store) {
                 storeToken = jwt.sign(
                     { id: store._id, type: "Store" },
-                    'sercterhcfuiab',
+                    '2187937891634982701',
                     { expiresIn: "48h" }
                 );
             }
@@ -206,7 +206,7 @@ exports.login = async (req, res) => {
             if (dis_center) {
                 storeToken = jwt.sign(
                     { id: dis_center._id, type: "Distribution Center" },
-                    'sercterhcfuiab',
+                    '2187937891634982701',
                     { expiresIn: "48h" }
                 );
             }
@@ -224,7 +224,7 @@ exports.login = async (req, res) => {
         if (await bcrypt.compare(password, user.password)) {
             const token = jwt.sign(
                 { email: user.email, id: user._id, account_type: user.accountType, platform: user.platform },
-                'uionuyuvtfrcgg',
+                '2187937891634982701',
                 {
                     expiresIn: "24h",
                 }

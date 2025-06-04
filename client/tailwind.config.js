@@ -1,4 +1,7 @@
 /** @type {import('tailwindcss').Config} */
+const colors = require('tailwindcss/colors');
+
+
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
@@ -131,8 +134,22 @@ module.exports = {
         500: "#5B5B5B",
         600: "#444444",
         700: "#2D2D2D",
-        800: "FFE5FB",
+        800: "#FFE5FB",
         900: "#4d0e5a",
+      },
+      green : {
+        5: "#E8F9E8",
+        25: "#C1E6C1",
+        50: "#9AD39A",
+        100: "#73BF73",
+        200: "#4CAF4C",
+        300: "#2D982D",
+        400: "#068306",
+        500: "#057005",
+        600: "#046004",
+        700: "#035003",
+        800: "#024002",
+        900: "#013001",
       },
     },
     extend: {

@@ -11,6 +11,8 @@ import {
   FaTimesCircle,
   FaChevronDown,
   FaCheck,
+  FaBoxOpen,
+  FaClock,
 } from 'react-icons/fa';
 
 function FetchedDeliveries() {
@@ -20,7 +22,7 @@ function FetchedDeliveries() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
 
-  // Hardcoded deliveries data
+  // Hardcoded deliveries data (kept for context, not modified)
   const deliveries = [
     {
       id: 'DEL001',
@@ -72,15 +74,13 @@ function FetchedDeliveries() {
     },
   ];
 
-  // Status options (with small emojis for quick visual context)
   const statusOptions = [
-    { value: 'all', label: 'All Status', icon: null },
-    { value: 'completed', label: 'Completed', icon: '✅' },
-    { value: 'in-transit', label: 'In Transit', icon: '🚚' },
-    { value: 'pending', label: 'Pending', icon: '⏳' },
+    { value: 'all', label: 'All Status', icon: <FaBoxOpen /> },
+    { value: 'completed', label: 'Completed', icon: <FaCheckCircle /> },
+    { value: 'in-transit', label: 'In Transit', icon: <FaTruck /> },
+    { value: 'pending', label: 'Pending', icon: <FaClock /> },
   ];
 
-  // Close dropdown if clicking outside
   useEffect(() => {
     function handleClickOutside(e) {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
@@ -91,7 +91,6 @@ function FetchedDeliveries() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Filter logic
   const filteredDeliveries = deliveries.filter((delivery) => {
     const matchesSearch =
       delivery.warehouseName.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -120,7 +119,7 @@ function FetchedDeliveries() {
       case 'in-transit':
         return <FaSpinner className="text-blue-500 animate-spin" />;
       case 'pending':
-        return <FaTimesCircle className="text-yellow-500" />;
+        return <FaClock className="text-yellow-500" />;
       default:
         return null;
     }
@@ -136,14 +135,13 @@ function FetchedDeliveries() {
     </div>
   );
 
-  // Grab the selected option object for displaying label + icon
   const selectedOption = statusOptions.find((o) => o.value === statusFilter);
 
   return (
     <div className="px-6 py-8">
       {/* Header Section */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
-        <h1 className="text-3xl font-bold text-richblue-25">Delivery Orders Overview</h1>
+        <h1 className="text-3xl font-bold text-white">Delivery Orders Overview</h1>
 
         <div className="flex flex-col md:flex-row gap-4 w-full md:w-auto">
           {/* Search Box */}
@@ -153,90 +151,93 @@ function FetchedDeliveries() {
               placeholder="Search by warehouse or tracking ID..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full md:w-64 pl-10 pr-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+              className="w-full md:w-64 pl-10 pr-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#66CDAA] transition"
             />
             <FaSearch className="absolute left-3 top-3 text-gray-400" />
           </div>
 
-          {/* Custom Dropdown for Status */}
-          <div ref={dropdownRef} className="relative w-full md:w-48">
+          {/* Custom Dropdown for Status - PURE TAILWIND ANIMATION */}
+          <div ref={dropdownRef} className="relative w-full md:w-60">
             <button
               onClick={() => setDropdownOpen((prev) => !prev)}
               className="
-                w-full 
-                flex justify-between items-center 
-                px-4 py-2 
-                bg-white border border-gray-300 
-                rounded-xl 
-                shadow-md hover:shadow-lg 
-                focus:outline-none focus:ring-2 focus:ring-blue-500 
-                transition-shadow duration-200
+                w-full
+                flex justify-between items-center
+                px-5 py-2.5
+                bg-[#F8F8F8] border border-gray-300
+                rounded-xl
+                shadow-md hover:shadow-lg
+                focus:outline-none focus:ring-2 focus:ring-[#66CDAA] focus:ring-offset-2 focus:ring-offset-[#1A313C]
+                transition-all duration-200 ease-in-out
+                text-gray-800 font-medium
               "
             >
-              <span className="text-gray-800 font-medium flex items-center gap-1">
+              <span className="flex items-center gap-2">
                 {selectedOption.icon && (
-                  <span className="text-lg leading-none">{selectedOption.icon}</span>
+                  <span className="text-lg leading-none text-[#20B2AA]">{selectedOption.icon}</span>
                 )}
                 {selectedOption.label}
               </span>
-              <FaChevronDown className="text-gray-500" />
+              <FaChevronDown className={`text-gray-500 transition-transform duration-200 ${dropdownOpen ? 'rotate-180' : ''}`} />
             </button>
 
-            {dropdownOpen && (
-              <ul
-                className="
-                  absolute z-10 mt-2 w-full 
-                  bg-white border border-gray-300 
-                  rounded-xl shadow-lg 
-                  max-h-60 overflow-auto 
-                  divide-y divide-gray-200
-                  focus:outline-none
-                "
-              >
-                {statusOptions.map((opt) => (
-                  <li
-                    key={opt.value}
-                    onClick={() => {
-                      setStatusFilter(opt.value);
-                      setDropdownOpen(false);
-                    }}
-                    className={`
-                      px-4 py-2 flex items-center justify-between 
-                      cursor-pointer 
-                      text-gray-700 
-                      transition-colors duration-150
-                      hover:bg-blue-100 hover:text-blue-900
-                      ${opt.value === statusFilter ? 'bg-blue-50 text-blue-900' : ''}
-                    `}
-                  >
-                    <span className="flex items-center gap-1">
-                      {opt.icon && <span className="text-lg leading-none">{opt.icon}</span>}
-                      {opt.label}
-                    </span>
-                    {opt.value === statusFilter && <FaCheck className="text-blue-600" />}
-                  </li>
-                ))}
-              </ul>
-            )}
+            {/* Dropdown List - Animation with Tailwind utilities */}
+            <ul
+              className={`
+                absolute z-20 mt-2 w-full
+                bg-[#F8F8F8] border border-gray-300
+                rounded-xl shadow-xl
+                max-h-72 overflow-y-auto
+                divide-y divide-gray-200
+                focus:outline-none
+                transition-all duration-200 ease-out
+                ${dropdownOpen ? 'opacity-100 translate-y-0 visible' : 'opacity-0 -translate-y-2 invisible'}
+              `}
+              // We don't need `style={{ transformOrigin: 'top center' }}` as much with `translate-y`
+            >
+              {statusOptions.map((opt) => (
+                <li
+                  key={opt.value}
+                  onClick={() => {
+                    setStatusFilter(opt.value);
+                    setDropdownOpen(false);
+                  }}
+                  className={`
+                    px-5 py-2.5 flex items-center justify-between
+                    cursor-pointer
+                    text-gray-700
+                    transition-colors duration-200 ease-in-out
+                    hover:bg-[#E0E0E0] hover:text-gray-900
+                    ${opt.value === statusFilter ? 'bg-[#D4EDDA] text-gray-900 font-semibold' : ''}
+                    ${opt.value === statusFilter ? 'border-l-4 border-[#20B2AA]' : ''}
+                  `}
+                >
+                  <span className="flex items-center gap-2">
+                    {opt.icon && <span className="text-lg leading-none text-[#20B2AA]">{opt.icon}</span>}
+                    {opt.label}
+                  </span>
+                  {opt.value === statusFilter && <FaCheck className="text-[#20B2AA]" />}
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </div>
 
-      {/* Deliveries List */}
+      {/* Deliveries List (not modified, kept for context) */}
       <div className="grid gap-6">
         {filteredDeliveries.map((delivery) => (
           <div
             key={delivery.id}
             className="
-              bg-white 
-              rounded-xl 
-              shadow-md 
-              hover:shadow-xl 
+              bg-cardbg
+              rounded-xl
+              shadow-md
+              hover:shadow-xl
               transition-shadow duration-200
             "
           >
             <div className="p-6 space-y-6">
-              {/* Top Bar: Warehouse + Status */}
               <div className="flex justify-between items-start">
                 <div>
                   <h3 className="text-xl font-semibold text-gray-800">
@@ -246,9 +247,9 @@ function FetchedDeliveries() {
                 </div>
                 <div
                   className={`
-                    flex items-center gap-2 
-                    px-3 py-1 
-                    rounded-full 
+                    flex items-center gap-2
+                    px-3 py-1
+                    rounded-full
                     ${getStatusColor(delivery.status)}
                   `}
                 >
@@ -257,31 +258,29 @@ function FetchedDeliveries() {
                 </div>
               </div>
 
-              {/* Delivery Info Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 <DeliveryDetail
-                  icon={<FaTruck className="text-blue-500" />}
+                  icon={<FaTruck className="text-[#20B2AA]" />}
                   label="Tracking ID"
                   value={delivery.trackingId}
                 />
                 <DeliveryDetail
-                  icon={<FaCalendarAlt className="text-blue-500" />}
+                  icon={<FaCalendarAlt className="text-[#20B2AA]" />}
                   label="Delivery Date"
                   value={new Date(delivery.deliveryDate).toLocaleDateString()}
                 />
                 <DeliveryDetail
-                  icon={<FaMapMarkerAlt className="text-blue-500" />}
+                  icon={<FaMapMarkerAlt className="text-[#20B2AA]" />}
                   label="Route"
                   value={delivery.route}
                 />
                 <DeliveryDetail
-                  icon={<FaBox className="text-blue-500" />}
+                  icon={<FaBox className="text-[#20B2AA]" />}
                   label="Total Value"
                   value={delivery.totalValue}
                 />
               </div>
 
-              {/* Order Items */}
               <div>
                 <h4 className="font-semibold text-gray-700 mb-2">Order Items</h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -289,15 +288,15 @@ function FetchedDeliveries() {
                     <div
                       key={index}
                       className="
-                        flex items-start gap-3 
-                        bg-gray-50 
-                        px-3 py-2 
-                        rounded-lg 
-                        hover:bg-gray-100 
+                        flex items-start gap-3
+                        bg-gray-50
+                        px-3 py-2
+                        rounded-lg
+                        hover:bg-gray-100
                         transition-colors duration-150
                       "
                     >
-                      <FaBox className="text-blue-600 mt-1 shrink-0" />
+                      <FaBox className="text-[#20B2AA] mt-1 shrink-0" />
                       <div className="text-sm">
                         <p className="font-medium text-gray-800">{item.name}</p>
                         <p className="text-gray-500">Quantity: {item.quantity}</p>
@@ -307,20 +306,19 @@ function FetchedDeliveries() {
                 </div>
               </div>
 
-              {/* CTA */}
               <div className="flex justify-end">
                 <button
                   onClick={() =>
                     navigate(`/dashboard/track-delivery`, { state: { delivery } })
                   }
                   className="
-                    px-6 py-2 
-                    bg-blue-600 text-white 
-                    rounded-lg 
-                    hover:bg-blue-700 
-                    transition-colors duration-150 
+                    px-6 py-2
+                    bg-[#20B2AA] text-white
+                    rounded-lg
+                    hover:bg-[#1A9F96]
+                    transition-colors duration-150
                     font-medium
-                    focus:outline-none focus:ring-2 focus:ring-blue-500
+                    focus:outline-none focus:ring-2 focus:ring-[#66CDAA]
                   "
                 >
                   Track Delivery

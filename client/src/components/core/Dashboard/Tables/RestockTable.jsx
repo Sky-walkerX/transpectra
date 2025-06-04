@@ -2,15 +2,18 @@ import React from "react";
 
 const RestockTable = ({ restockAlerts }) => {
   return (
-    <div className="w-full max-w-[900px] mx-auto p-[6px] bg-llblue rounded-lg shadow-sm">
-      <h2 className="text-xl font-medium text-center text-richblue-700 mb-2">Urgent Restock Alerts</h2>
-      <table className="min-w-full bg-white">
+    <div className="w-full bg-slate-800 rounded-2xl shadow-md p-4 overflow-x-auto max-w-[900px] mx-auto"> {/* Direct dark mode background */}
+      <h2 className="text-lg md:text-xl font-semibold text-center text-blue-100 mb-4"> {/* Light text color */}
+        Urgent Restock Alerts
+      </h2>
+
+      <table className="min-w-full table-auto text-sm text-left border-collapse">
         <thead>
-          <tr className="bg-blu text-white text-xs font-medium">
-            <th className="py-1 px-4 border-b-2 border-blue-500">Product Name</th>
-            <th className="py-2 px-4 border-b-2 border-blue-500">Current Stock</th>
-            <th className="py-2 px-4 border-b-2 border-blue-500">Reorder Threshold</th>
-            <th className="py-2 px-4 border-b-2 border-blue-500">Category</th>
+          <tr className="bg-blue-900 text-white text-xs font-semibold tracking-wide"> {/* Dark blue header */}
+            <th className="px-4 py-2 border-b-2 border-blue-700 text-center">Product Name</th> {/* Darker border */}
+            <th className="px-4 py-2 border-b-2 border-blue-700 text-center">Current Stock</th>
+            <th className="px-4 py-2 border-b-2 border-blue-700 text-center">Reorder Threshold</th>
+            <th className="px-4 py-2 border-b-2 border-blue-700 text-center">Category</th>
           </tr>
         </thead>
         <tbody>
@@ -18,17 +21,19 @@ const RestockTable = ({ restockAlerts }) => {
             restockAlerts.map((alert, index) => (
               <tr
                 key={index}
-                className={`${index % 2 === 0 ? "bg-[#dcecff]" : "bg-white"} text-richblue-600 text-xs font-inter`}
+                className={`${
+                  index % 2 === 0 ? "bg-slate-700" : "bg-slate-600" // Alternating dark rows
+                } text-blue-100 text-xs text-center transition-all duration-150`}
               >
-                <td className="py-2 px-2 border-b text-center border-blue-300">{alert.productName}</td>
-                <td className="py-2 px-2 border-b text-center border-blue-300">{alert.currentStock}</td>
-                <td className="py-2 px-2 border-b text-center border-blue-300">{alert.reorderThreshold}</td>
-                <td className="py-2 px-2 border-b text-center border-blue-300">{alert.productCategory}</td>
+                <td className="py-2 px-4 border-b border-slate-600">{alert.productName}</td> {/* Darker border */}
+                <td className="py-2 px-4 border-b border-slate-600">{alert.currentStock}</td>
+                <td className="py-2 px-4 border-b border-slate-600">{alert.reorderThreshold}</td>
+                <td className="py-2 px-4 border-b border-slate-600">{alert.productCategory}</td>
               </tr>
             ))
           ) : (
             <tr>
-              <td colSpan="4" className="py-4 text-center text-gray-500">
+              <td colSpan="4" className="py-4 text-center text-gray-400"> {/* Dark mode text color */}
                 No restock alerts.
               </td>
             </tr>

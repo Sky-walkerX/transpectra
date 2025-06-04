@@ -71,7 +71,7 @@ function SupplierOrders() {
             
 
             {/* Main Content */}
-            <div className="flex-1 bg-slate-800">
+            <div className="flex-1 bg-richblue-800">
                 {/* Header */}
                 <div className="p-8 pb-6">
                     <div className="flex justify-between items-center">
@@ -96,7 +96,7 @@ function SupplierOrders() {
                 {/* Orders List */}
                 <div className="px-8 pb-8 space-y-6">
                     {filteredOrders.map((order) => (
-                        <div key={order.id} className="bg-white rounded-2xl shadow-lg overflow-hidden">
+                        <div key={order.id} className="bg-cardbg rounded-2xl shadow-lg overflow-hidden">
                             <div className="p-8">
                                 <div className="flex flex-col md:flex-row gap-8">
                                     {/* Warehouse Image */}

@@ -14,6 +14,7 @@ module.exports = {
       white: "#fff",
       black: "#000",
       transparent: "#ffffff00",
+      slate: colors.slate,
       'sunny': '#efda4d',
       'lpurple': '#dabbe3',
       'pinkpurple': '#cc67c2',
@@ -151,7 +152,18 @@ module.exports = {
         800: "#024002",
         900: "#013001",
       },
+      cardbg: "#90bfbf",
+      lightblue: {
+      tablebg: "#dcecff",
+      altrow: "#eaf3fc",  
+      },
+      status: {
+        complete: "#16a34a",     
+        progress: "#facc15",    
+        delayed: "#ef4444",     
+      },
     },
+    
     extend: {
       maxWidth: {
         maxContent: "1260px",

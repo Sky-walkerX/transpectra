@@ -36,40 +36,62 @@ const RecentDeliveriesTable = () => {
     },
   ];
 
+  const getStatusColor = (status) => {
+    switch (status) {
+      case "Completed":
+        return "text-green-400"; // Lighter green for dark mode
+      case "Delayed":
+        return "text-red-400"; // Lighter red for dark mode
+      case "In Progress":
+        return "text-yellow-400"; // Lighter yellow for dark mode
+      default:
+        return "text-gray-400";
+    }
+  };
+
   return (
-    <div className="w-full max-w-[900px] mx-auto p-[10px] border-blue-800 rounded-lg shadow-sm bg-llblue">
-      <h2 className="text-xl font-medium text-center text-richblue-500 mb-2">Recent Deliveries</h2>
-      <table className="min-w-full bg-white">
-        <thead>
-          <tr className="bg-blu text-white text-xs font-medium">
-            <th className="py-1 px-4 border-b-2 border-blue-500">Delivery ID</th>
-            <th className="py-1 px-4 border-b-2 border-blue-500">Supplier Name</th>
-            <th className="py-1 px-4 border-b-2 border-blue-500">Products Delivered</th>
-            <th className="py-1 px-4 border-b-2 border-blue-500">Quantity (Units)</th>
-            <th className="py-1 px-4 border-b-2 border-blue-500">Delivery Date</th>
-            <th className="py-1 px-4 border-b-2 border-blue-500">Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {recentDeliveries.map((delivery, index) => (
-            <tr
-              key={index}
-              className={`${
-                index % 2 === 0 ? "bg-[#dcecff]" : "bg-white"
-              } text-richblue-600 text-xs font-inter`}
-            >
-              <td className="py-2 px-2 border-b text-center border-blue-300">{delivery.deliveryId}</td>
-              <td className="py-2 px-2 border-b text-center border-blue-300">{delivery.supplierName}</td>
-              <td className="py-2 px-2 border-b text-center border-blue-300">{delivery.productsDelivered}</td>
-              <td className="py-2 px-2 border-b text-center border-blue-300">{delivery.quantity}</td>
-              <td className="py-2 px-2 border-b text-center border-blue-300">{delivery.deliveryDate}</td>
-              <td className={`py-2 px-2 border-b text-center border-blue-300 ${delivery.status === 'Delayed' ? 'text-red-500' : delivery.status === 'In Progress' ? 'text-orange-500' : 'text-green-500'}`}>
-                {delivery.status}
-              </td>
+    <div className="w-full max-w-[900px] mx-auto p-4 rounded-2xl shadow-md bg-slate-800"> {/* Dark background */}
+      <h2 className="text-xl font-semibold text-center text-blue-100 mb-4"> {/* Light text color */}
+        Recent Deliveries
+      </h2>
+
+      <div className="overflow-x-auto">
+        <table className="min-w-full bg-slate-900 rounded-md overflow-hidden text-sm"> {/* Darker table background */}
+          <thead>
+            <tr className="bg-blue-900 text-white text-xs font-medium tracking-wide"> {/* Dark blue header */}
+              <th className="py-2 px-4 border-b border-blue-700 text-center">Delivery ID</th> {/* Darker border */}
+              <th className="py-2 px-4 border-b border-blue-700 text-center">Supplier Name</th>
+              <th className="py-2 px-4 border-b border-blue-700 text-center">Products Delivered</th>
+              <th className="py-2 px-4 border-b border-blue-700 text-center">Quantity</th>
+              <th className="py-2 px-4 border-b border-blue-700 text-center">Date</th>
+              <th className="py-2 px-4 border-b border-blue-700 text-center">Status</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {recentDeliveries.map((delivery, index) => (
+              <tr
+                key={index}
+                className={`${
+                  index % 2 === 0 ? "bg-slate-700" : "bg-slate-800" // Alternating dark rows
+                } text-slate-100 text-xs text-center`} 
+              >
+                <td className="py-2 px-2 border-b border-slate-600">{delivery.deliveryId}</td> {/* Darker border */}
+                <td className="py-2 px-2 border-b border-slate-600">{delivery.supplierName}</td>
+                <td className="py-2 px-2 border-b border-slate-600">{delivery.productsDelivered}</td>
+                <td className="py-2 px-2 border-b border-slate-600">{delivery.quantity}</td>
+                <td className="py-2 px-2 border-b border-slate-600">{delivery.deliveryDate}</td>
+                <td
+                  className={`py-2 px-2 border-b border-slate-600 font-semibold ${getStatusColor(
+                    delivery.status
+                  )}`}
+                >
+                  {delivery.status}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

@@ -26,7 +26,7 @@ export const sidebarLinks = [
     id: 4,
     name: "Dashboard",
     path: "/dashboard/analytics",
-    type: ACCOUNT_TYPE.WAREHOUSE_MANAGER,
+    // type: ACCOUNT_TYPE.WAREHOUSE_MANAGER,
     icon: "VscDashboard",
   },
   {

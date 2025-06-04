@@ -144,7 +144,7 @@ const FleetOverviewPage = () => {
         <div className="grid grid-cols-1 xl:grid-cols-10 gap-8">
           {/* Profile Card - Optimized width */}
           <div className="xl:col-span-3">
-            <div className="bg-white rounded-2xl shadow-lg overflow-hidden h-fit sticky top-8">
+            <div className="bg-cardbg rounded-2xl shadow-lg overflow-hidden h-fit sticky top-8">
               <div className="bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 px-6 py-8">
                 <div className="flex items-center justify-center">
                   <div className="h-24 w-24 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center ring-4 ring-white/30">
@@ -215,7 +215,7 @@ const FleetOverviewPage = () => {
 
           {/* Yard Activities - Expanded width */}
           <div className="xl:col-span-7">
-            <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+            <div className="bg-cardbg rounded-2xl shadow-lg overflow-hidden">
               <div className="px-4 py-6 border-b border-richblue-100">
                 <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
                   <div>
@@ -272,7 +272,7 @@ const FleetOverviewPage = () => {
                       <span>{filter.label}</span>
                       <span
                         className={`px-2 py-0.5 rounded-full text-xs ${
-                          selectedActivity === filter.key ? "bg-white/20 text-white" : "bg-white text-gray-600"
+                          selectedActivity === filter.key ? "bg-white/20 text-white" : "bg-blue-400 text-gray-600"
                         }`}
                       >
                         {filter.count}

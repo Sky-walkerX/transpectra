@@ -6,7 +6,7 @@ import IconBtn from "../../../Common/IconBtn"
 import {toast} from "react-hot-toast"
 
 export default function ChangeProfilePicture() {
-  const { token } = useSelector((state) => state.auth);
+  // const { token } = useSelector((state) => state.auth);
   const { user } = useSelector((state) => state.auth);
   const company = useSelector((state) => state.company?.company || null);
   const warehouse = useSelector((state) => state.warehouse?.warehouse || null);
@@ -14,9 +14,15 @@ export default function ChangeProfilePicture() {
 
   const dispatch = useDispatch();
 
-  const [loading, setLoading] = useState(false);
+  const [
+    loading, 
+    setLoading
+  ] = useState(false);
   const [imageFile, setImageFile] = useState(null);
-  const [previewSource, setPreviewSource] = useState(null);
+  const [
+    previewSource,
+    setPreviewSource
+  ] = useState(null);
 
   const fileInputRef = useRef(null);
 
@@ -67,7 +73,7 @@ export default function ChangeProfilePicture() {
   }, [imageFile]);
 
   return (
-    <div className="flex items-center justify-between rounded-md border-[1px] border-richblue-500 bg-llblue p-3 px-8 text-richblue-900">
+    <div className="flex items-center justify-between rounded-md border-[1px] border-richblue-500 bg-richblue-900 p-3 px-8 text-llblue">
       <div className="flex items-center gap-x-4">
         <img
           src={
@@ -79,7 +85,7 @@ export default function ChangeProfilePicture() {
           className="aspect-square w-[78px] rounded-full object-cover"
         />
         <div className="space-y-2">
-          <p className="font-semibold text-richblue-800 text-xl">
+          <p className="font-semibold text-llblue text-xl">
             Change Profile Picture
           </p>
           <div className="flex flex-row gap-4">

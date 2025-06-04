@@ -25,11 +25,11 @@ const FleetOverviewPage = () => {
   );
   console.log("2*****************************************************")
   return (
-    <div className="px-8 min-h-screen">
+    <div className="px-8 min-h-screen p-5">
       {/* Heading */}
       <div className="mb-4">
-        <h1 className="text-3xl font-bold text-blue-900">Fleet Overview</h1>
-        <p className="text-md text-gray-600">
+        <h1 className="text-3xl font-bold text-white">Fleet Overview</h1>
+        <p className="text-md text-richblue-50">
           Track and manage all yard activities in real time.
         </p>
       </div>
@@ -39,7 +39,7 @@ const FleetOverviewPage = () => {
         <input
           type="text"
           placeholder="Search by License Number"
-          className="w-full px-4 py-3 border rounded-md shadow-sm"
+          className="w-full px-4 py-3 rounded-md bg-richblue-900 border-2 border-richblue-500"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
@@ -71,7 +71,7 @@ const FleetOverviewPage = () => {
             />
           ))
         ) : (
-          <p className="text-gray-600">No trucks match the search criteria.</p>
+          <p className="text-richblue-50">No trucks match the search criteria.</p>
         )}
       </div>
     </div>

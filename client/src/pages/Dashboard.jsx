@@ -19,8 +19,8 @@ function Dashboard() {
     <div className="relative min-h-[calc(100vh-3.5rem)]">
       <div className="flex">
       <Sidebar />
-      <div className="h-[calc(100vh-3.5rem)] flex-1 overflow-y-auto no-scrollbar">
-        <div className="mx-auto w-11/12 max-w-[1000px] py-10">
+      <div className="h-[calc(100vh-3.5rem)] bg-richblue-800 flex-1 overflow-y-auto no-scrollbar">
+        <div className="mx-auto w-full max-w-[1300px] px-3 py-3">
           <Outlet />
         </div>
       </div>

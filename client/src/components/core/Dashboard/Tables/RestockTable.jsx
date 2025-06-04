@@ -2,8 +2,8 @@ import React from "react";
 
 const RestockTable = ({ restockAlerts }) => {
   return (
-    <div className="w-full max-w-[900px] mx-auto p-[6px] border-[1px] border-blue-800 rounded-lg shadow-sm shadow-llblue">
-      <h2 className="text-xl font-medium text-center text-richblue-500 mb-2">Urgent Restock Alerts</h2>
+    <div className="w-full max-w-[900px] mx-auto p-[6px] bg-llblue rounded-lg shadow-sm">
+      <h2 className="text-xl font-medium text-center text-richblue-700 mb-2">Urgent Restock Alerts</h2>
       <table className="min-w-full bg-white">
         <thead>
           <tr className="bg-blu text-white text-xs font-medium">

@@ -2,15 +2,19 @@ import ChangeInventoryExcelSheet from "./ChangeInventoryExcel"
 import ChangeProfilePicture from "./ChangeProfilePicture"
 import DeleteAccount from "./DeleteAccount"
 import EditProfile from "./EditProfile"
-import { useDispatch, useSelector } from "react-redux";
+import { 
+  // useDispatch, 
+  useSelector 
+} from "react-redux";
 
 export default function Settings() {
   const user = useSelector((state) => state.auth?.user || null);
   const isStore = user?.accountType === "Warehouse_Manager" ;
   const isYard = user?.accountType === "Yard_managers" ;
   return (
-    <>
-      <h1 className="mb-4 text-3xl font-medium text-black">
+    <div className="flex items-center justify-center pt-8">
+    <div className="max-w-[1000px]">
+      <h1 className="mb-4 text-3xl font-medium text-white">
         Edit Profile
       </h1>
       {/* Change Profile Picture */}
@@ -29,6 +33,7 @@ export default function Settings() {
       }
       {/* Delete Account */}
       <DeleteAccount />
-    </>
+    </div>
+    </div>
   )
 }

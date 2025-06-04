@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import Cookies from "js-cookie";
+// import Cookies from "js-cookie";
 
 // Get initial state from localStorage if available
 const initialState = {

@@ -37,7 +37,7 @@ const RecentDeliveriesTable = () => {
   ];
 
   return (
-    <div className="w-full max-w-[900px] mx-auto p-[10px] border-[1px] border-blue-800 rounded-lg shadow-sm shadow-llblue">
+    <div className="w-full max-w-[900px] mx-auto p-[10px] border-blue-800 rounded-lg shadow-sm bg-llblue">
       <h2 className="text-xl font-medium text-center text-richblue-500 mb-2">Recent Deliveries</h2>
       <table className="min-w-full bg-white">
         <thead>

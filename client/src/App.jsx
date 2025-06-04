@@ -55,7 +55,7 @@ function App() {
       console.log("This is token", token);
       dispatch(getUserDetails(token, navigate));
     }
-  }, [dispatch]);
+  }, [dispatch, navigate]);
 
   useEffect(() => {
     if (user && user._id) {

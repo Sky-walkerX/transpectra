@@ -6,9 +6,14 @@ import IconBtn from "../../../Common/IconBtn"
 
 export default function EditProfile() {
   const { user } = useSelector((state) => state.auth)
-  const { token } = useSelector((state) => state.auth)
-  const warehouseData = useSelector((state) => state.warehouse?.warehouse);
-  const company = useSelector((state) => state.company?.company || null);
+  const warehouseData = useSelector((state) => state.warehouse?.warehouse) || {
+    warehouseAddress: "SomeAddress",
+    warehouseArea: "343"
+  };
+  const company = useSelector((state) => state.company?.company || {
+    companyAddress: "SomeAddress",
+    companyArea: "231",
+  });
   const isWarehouseManager = user?.accountType === "Warehouse_Manager";
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -28,7 +33,7 @@ export default function EditProfile() {
     area: data.lastName,
   };
   try {
-    dispatch(updateProfile(isWarehouseManager,token, payload));
+    dispatch(updateProfile(isWarehouseManager,user, payload));
   } catch (error) {
     console.log("ERROR MESSAGE - ", error.message);
   }
@@ -37,15 +42,15 @@ export default function EditProfile() {
     <>
       <form onSubmit={handleSubmit(submitProfileForm)}>
         {/* Profile Information */}
-        <div className="mt-10 mb-3 pb-4 flex flex-col gap-y-3 rounded-md border-[1px] border-richblue-500 bg-llblue p-3 px-8">
-          <h2 className="text-2xl font-bold text-richblue-900">
+        <div className="mt-10 mb-3 pb-4 flex flex-col gap-y-3 rounded-md border-[1px] border-richblue-500 bg-richblue-400 p-3 px-8">
+          <h2 className="text-2xl font-bold text-richblue-25">
           {isWarehouseManager
                 ? "Warehouse Details"
                 : "Manufacturing Unit Details"}
           </h2>
           <div className="flex flex-col gap-5 lg:flex-row">
-            <div className="flex flex-col gap-2 lg:w-[48%]">
-              <label htmlFor="firstName" className="text-richblack-700">
+            <div className="flex flex-col gap-2 lg:w-[50%]">
+              <label htmlFor="firstName" className="text-richblue-50">
               {isWarehouseManager
                 ?"Warehouse Address"
                 :"Manufacturing Unit Address"}
@@ -55,7 +60,7 @@ export default function EditProfile() {
                 name="firstName"
                 id="firstName"
                 placeholder="Enter first name"
-                className="bg-richblue-25 text-black py-2 px-3 rounded-md"
+                className="bg-richblue-300 text-white py-2 px-3 rounded-md"
                 {...register("firstName", { required: true })}
                 defaultValue={isWarehouseManager
                   ? warehouseData.warehouseAddress
@@ -67,8 +72,8 @@ export default function EditProfile() {
                 </span>
               )}
             </div>
-            <div className="flex flex-col gap-2 lg:w-[48%]">
-              <label htmlFor="lastName" className="text-richblack-700">
+            <div className="flex flex-col gap-2 lg:w-[50%]">
+              <label htmlFor="lastName" className="text-richblack-50">
               {isWarehouseManager
                 ?"Warehouse Area"
                 :"Manufacturing Unit Area"}
@@ -78,7 +83,7 @@ export default function EditProfile() {
                 name="lastName"
                 id="lastName"
                 placeholder="Enter first name"
-                className="bg-richblue-25 text-black py-2 px-3 rounded-md"
+                className="bg-richblue-300 text-white py-2 px-3 rounded-md"
                 {...register("lastName", { required: true })}
                 defaultValue={isWarehouseManager
                   ? warehouseData.warehouseArea

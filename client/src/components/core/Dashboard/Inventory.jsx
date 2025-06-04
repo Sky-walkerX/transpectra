@@ -85,10 +85,10 @@ const mockInventoryData = [
 const Button = ({ children, onClick, variant = "primary", size = "md", className = "" }) => {
   const baseClasses = "font-medium rounded-lg transition-all duration-200 flex items-center justify-center gap-2";
   const variants = {
-    primary: "bg-blue-600 hover:bg-blue-700 text-white shadow-md hover:shadow-lg",
-    secondary: "bg-gray-100 hover:bg-gray-200 text-gray-700 border border-gray-300",
-    danger: "bg-red-600 hover:bg-red-700 text-white shadow-md hover:shadow-lg",
-    warning: "bg-orange-500 hover:bg-orange-600 text-white shadow-md hover:shadow-lg",
+    primary: "bg-richblue-600 hover:bg-richblue-700 text-white shadow-md hover:shadow-lg",
+    secondary: "bg-richblue-800 hover:bg-richblue-700 text-blue-25 border border-richblue-700",
+    danger: "bg-[#FF2323] hover:bg-[#FF4444] text-white shadow-md hover:shadow-lg",
+    warning: "bg-yellow-500 hover:bg-yellow-600 text-white shadow-md hover:shadow-lg",
   };
   const sizes = {
     sm: "px-3 py-1.5 text-sm",
@@ -109,10 +109,10 @@ const Button = ({ children, onClick, variant = "primary", size = "md", className
 // Custom Badge Component
 const Badge = ({ children, variant = "default" }) => {
   const variants = {
-    default: "bg-gray-100 text-gray-800",
-    success: "bg-green-100 text-green-800 border border-green-200",
-    warning: "bg-yellow-100 text-yellow-800 border border-yellow-200",
-    danger: "bg-red-100 text-red-800 border border-red-200",
+    default: "bg-richblue-800 text-blue-25",
+    success: "bg-[#00AA00] text-white",
+    warning: "bg-yellow-500 text-white",
+    danger: "bg-[#FF2323] text-white",
   };
 
   return (
@@ -125,7 +125,7 @@ const Badge = ({ children, variant = "default" }) => {
 // Custom Card Component
 const Card = ({ children, className = "" }) => {
   return (
-    <div className={`bg-white rounded-lg shadow-md border border-gray-200 ${className}`}>
+    <div className={`bg-richblue-900 rounded-lg shadow-lg border border-richblue-700 ${className}`}>
       {children}
     </div>
   );
@@ -134,10 +134,10 @@ const Card = ({ children, className = "" }) => {
 // Custom Alert Component
 const Alert = ({ children, variant = "info", className = "" }) => {
   const variants = {
-    info: "bg-blue-50 border-blue-200 text-blue-800",
-    warning: "bg-yellow-50 border-yellow-200 text-yellow-800",
-    danger: "bg-red-50 border-red-200 text-red-800",
-    success: "bg-green-50 border-green-200 text-green-800",
+    info: "bg-richblue-800 border-richblue-700 text-blue-25",
+    warning: "bg-yellow-500/10 border-yellow-500/20 text-yellow-400",
+    danger: "bg-[#FF2323]/10 border-[#FF2323]/20 text-[#FF2323]",
+    success: "bg-[#00AA00]/10 border-[#00AA00]/20 text-[#00AA00]",
   };
 
   return (
@@ -198,7 +198,7 @@ function Inventory() {
     return "In Stock";
   }
 
-  const currentMonth = new Date().toLocaleString("en-US", { month: "long" });
+  // const currentMonth = new Date().toLocaleString("en-US", { month: "long" });
   
   const filteredInventory = inventory.filter((item) => {
     return (
@@ -261,11 +261,11 @@ function Inventory() {
     return (
       <div className="w-full max-w-6xl mx-auto p-6">
         <div className="animate-pulse">
-          <div className="h-8 bg-gray-200 rounded w-1/3 mb-4"></div>
-          <div className="h-4 bg-gray-200 rounded w-1/2 mb-8"></div>
+          <div className="h-8 bg-richblue-800 rounded w-1/3 mb-4"></div>
+          <div className="h-4 bg-richblue-800 rounded w-1/2 mb-8"></div>
           <div className="space-y-4">
             {[1, 2, 3, 4, 5].map((i) => (
-              <div key={i} className="h-16 bg-gray-200 rounded"></div>
+              <div key={i} className="h-16 bg-richblue-800 rounded"></div>
             ))}
           </div>
         </div>
@@ -282,7 +282,7 @@ function Inventory() {
             <Alert key={cat} variant="danger">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <HiExclamationTriangle className="h-5 w-5 text-red-600" />
+                  <HiExclamationTriangle className="h-5 w-5" />
                   <div>
                     <h4 className="font-semibold">Urgent Restock Required</h4>
                     <p className="text-sm">
@@ -303,63 +303,63 @@ function Inventory() {
       {/* Main Inventory Card */}
       <Card className="overflow-hidden">
         {/* Header */}
-        <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-6">
+        <div className="bg-gradient-to-r from-richblue-800 to-richblue-900 text-white p-6">
           <div className="flex justify-between items-start">
             <div>
               <h1 className="text-2xl font-bold mb-2">Inventory Management</h1>
-              <p className="text-blue-100">
+              <p className="text-blue-25">
                 Real-Time Overview of Inventory in {category === "All" ? "All Categories" : category}
               </p>
             </div>
             <div className="text-right">
               <div className="text-3xl font-bold">{totalProducts}</div>
-              <div className="text-sm text-blue-100">Total Products</div>
+              <div className="text-sm text-blue-25">Total Products</div>
             </div>
           </div>
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-6 bg-gray-50 border-b">
-          <div className="bg-white p-4 rounded-lg shadow-sm">
-            <div className="text-2xl font-bold text-gray-900">{totalProducts}</div>
-            <div className="text-sm text-gray-500">Total Products</div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-6 bg-richblue-800 border-b border-richblue-700">
+          <div className="bg-richblue-900 p-4 rounded-lg shadow-sm border border-richblue-700">
+            <div className="text-2xl font-bold text-white">{totalProducts}</div>
+            <div className="text-sm text-blue-25">Total Products</div>
           </div>
-          <div className="bg-white p-4 rounded-lg shadow-sm">
-            <div className="text-2xl font-bold text-red-600">{lowStockCount}</div>
-            <div className="text-sm text-gray-500">Low Stock Items</div>
+          <div className="bg-richblue-900 p-4 rounded-lg shadow-sm border border-richblue-700">
+            <div className="text-2xl font-bold text-[#FF2323]">{lowStockCount}</div>
+            <div className="text-sm text-blue-25">Low Stock Items</div>
           </div>
-          <div className="bg-white p-4 rounded-lg shadow-sm">
-            <div className="text-2xl font-bold text-blue-600">{uniqueCategories.length}</div>
-            <div className="text-sm text-gray-500">Categories</div>
+          <div className="bg-richblue-900 p-4 rounded-lg shadow-sm border border-richblue-700">
+            <div className="text-2xl font-bold text-richblue-400">{uniqueCategories.length}</div>
+            <div className="text-sm text-blue-25">Categories</div>
           </div>
         </div>
 
         {/* Filters */}
-        <div className="p-6 border-b bg-white">
+        <div className="p-6 border-b border-richblue-700 bg-richblue-900">
           <div className="flex flex-col md:flex-row gap-4">
             <div className="flex-1 relative">
-              <HiMagnifyingGlass className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <HiMagnifyingGlass className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-blue-25" />
               <input
                 type="text"
                 placeholder="Search products..."
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full pl-10 pr-4 py-2 bg-richblue-800 border border-richblue-700 rounded-lg focus:ring-2 focus:ring-richblue-500 focus:border-transparent text-white placeholder-blue-25"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
             <div className="relative">
-              <HiFilter className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <HiFilter className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-blue-25" />
               <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
-                className="pl-10 pr-8 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white min-w-[200px]"
+                className="pl-10 pr-8 py-2 bg-richblue-800 border border-richblue-700 rounded-lg focus:ring-2 focus:ring-richblue-500 focus:border-transparent appearance-none text-white min-w-[200px]"
               >
                 <option value="All">All Categories</option>
                 {uniqueCategories.map((cat) => (
                   <option key={cat} value={cat}>{cat}</option>
                 ))}
               </select>
-              <HiChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
+              <HiChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-blue-25 pointer-events-none" />
             </div>
           </div>
         </div>
@@ -367,31 +367,31 @@ function Inventory() {
         {/* Inventory Table */}
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="bg-gray-50">
+            <thead className="bg-richblue-800">
               <tr>
-                <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-4 text-left text-xs font-medium text-blue-25 uppercase tracking-wider">
                   Product Name
                 </th>
-                <th className="px-6 py-4 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-4 text-center text-xs font-medium text-blue-25 uppercase tracking-wider">
                   Quantity
                 </th>
-                <th className="px-6 py-4 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-4 text-center text-xs font-medium text-blue-25 uppercase tracking-wider">
                   Threshold
                 </th>
-                <th className="px-6 py-4 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-4 text-center text-xs font-medium text-blue-25 uppercase tracking-wider">
                   Status
                 </th>
-                <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-4 text-left text-xs font-medium text-blue-25 uppercase tracking-wider">
                   Category
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="bg-richblue-900 divide-y divide-richblue-700">
               {filteredInventory.length === 0 ? (
                 <tr>
-                  <td colSpan="5" className="px-6 py-12 text-center text-gray-500">
+                  <td colSpan="5" className="px-6 py-12 text-center text-blue-25">
                     <div className="flex flex-col items-center">
-                      <HiMagnifyingGlass className="h-12 w-12 text-gray-300 mb-4" />
+                      <HiMagnifyingGlass className="h-12 w-12 text-richblue-700 mb-4" />
                       <p className="text-lg font-medium">No products found</p>
                       <p className="text-sm">Try adjusting your search or filter criteria</p>
                     </div>
@@ -401,7 +401,7 @@ function Inventory() {
                 filteredInventory.map((item, index) => (
                   <tr
                     key={item.Id}
-                    className="hover:bg-gray-50 cursor-pointer transition-colors duration-150"
+                    className="hover:bg-richblue-800 cursor-pointer transition-colors duration-150"
                     onClick={() =>
                       navigate("/dashboard/product-order", {
                         state: {
@@ -412,21 +412,21 @@ function Inventory() {
                     }
                   >
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="font-medium text-gray-900">{item.productName}</div>
-                      <div className="text-sm text-gray-500">{item.type}</div>
+                      <div className="font-medium text-white">{item.productName}</div>
+                      <div className="text-sm text-blue-25">{item.type}</div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-center">
-                      <span className={`font-medium ${item.quantity < item.threshold ? 'text-red-600' : 'text-gray-900'}`}>
+                      <span className={`font-medium ${item.quantity < item.threshold ? 'text-[#FF2323]' : 'text-white'}`}>
                         {item.quantity}
                       </span>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-center text-gray-900">
+                    <td className="px-6 py-4 whitespace-nowrap text-center text-white">
                       {item.threshold}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-center">
                       {getStatusBadge(item.stockStatus)}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-gray-900">
+                    <td className="px-6 py-4 whitespace-nowrap text-white">
                       {item.category}
                     </td>
                   </tr>

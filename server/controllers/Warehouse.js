@@ -137,6 +137,32 @@ const parseExcelDate = (excelDate) => {
   }
 };
 
+exports.getAllWarehouses = async (req, res) => {
+  try {
+    // Fetch warehouses data
+    const warehouses = await Warehouse.find();
+    
+    if (!warehouses || warehouses.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "No warehouses found.",
+      });
+    }
+    return res.status(200).json({
+      success: true,
+      message: "Warehouses fetched successfully.",
+      warehouses,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      success: false,
+      message: "An error occurred while fetching warehouses.",
+      error: error.message,
+    });
+  }
+};
+
 exports.getWarehouseDetailsByManagerId = async (req, res) => {
   const { managerId } = req.params;
   console.log("In warehouse Details retreiving function")

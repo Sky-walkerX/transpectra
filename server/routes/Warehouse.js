@@ -35,6 +35,8 @@ const upload = multer({
   },
 });
 
+router.get("/", warehouseController.getAllWarehouses);
+
 // Define routes
 router.post(
   "/addWarehouse",

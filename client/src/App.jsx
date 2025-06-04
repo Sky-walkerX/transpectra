@@ -14,6 +14,7 @@ import Inventory from "./components/core/Dashboard/Inventory";
 import Cookies from "js-cookie";
 import PrivateRoute from "./components/core/auth/PrivateRoute";
 import Orders from "./components/core/Dashboard/Orders";
+import CreateOrder from "./components/core/Dashboard/CreateOrder";
 import TrackDelivery from "./components/core/Dashboard/TrackDelivery";
 import { getUserDetails } from "./services/oparations/profileAPI";
 import FleetActivity from "./components/core/Dashboard/FleetActivity";
@@ -156,6 +157,22 @@ function App() {
             }
           />
           <Route
+            path="dashboard/create-order"
+            element={
+              <PrivateRoute>
+                <CreateOrder />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="dashboard/order-details/:orderId"
+            element={
+              <PrivateRoute>
+                <OrderDetails />
+              </PrivateRoute>
+            }
+          />
+          <Route
             path="dashboard/deliveries"
             element={
               <PrivateRoute>
@@ -184,14 +201,6 @@ function App() {
             element={
               <PrivateRoute>
                 <FulfillOrder />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="dashboard/order-details"
-            element={
-              <PrivateRoute>
-                <OrderDetails />
               </PrivateRoute>
             }
           />

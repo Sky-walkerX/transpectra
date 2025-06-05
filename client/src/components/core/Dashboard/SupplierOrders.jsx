@@ -1,10 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { FaWarehouse, FaCalendarAlt, FaBox, FaTruck, FaMapMarkerAlt, FaBuilding, FaUser, FaFileAlt, FaCog, FaSignOutAlt, FaSearch } from 'react-icons/fa';
+import { toast } from 'react-hot-toast';
+import { apiConnector } from '../../../services/apiConnector';
 
 function SupplierOrders() {
     const navigate = useNavigate();
+    const manufacturerId = useSelector((state)=>state.auth).user.LinkedManufacturingUnitID;
     const [searchTerm, setSearchTerm] = useState('');
+    const [manufacOrders, setManufacOrders] = useState([]);
+    const [filteredOrders, setFilteredOrders] = useState([]);
 
     // Hardcoded orders data
     const orders = [
@@ -52,11 +58,63 @@ function SupplierOrders() {
         }
     ];
 
-    // Filter orders based on search term
-    const filteredOrders = orders.filter(order =>
-        order.warehouseName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        order.warehouseAddress.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    useEffect(() => {
+        setFilteredOrders(
+            [
+                ...orders,
+                ...manufacOrders
+            ].filter(order =>
+                order.warehouseName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                order.warehouseAddress.toLowerCase().includes(searchTerm.toLowerCase())
+            )
+        )
+    }, [searchTerm, orders, manufacOrders]);
+
+    useEffect(()=>{
+        const fetchManufacOrders = async () => {
+            console.log(manufacturerId)
+            if(manufacturerId && manufacOrders.length === 0) {
+                try {
+                    const orders = await apiConnector("GET", "/order/manufacturer/"+manufacturerId);
+                    setManufacOrders(orders.data.orders.map((order)=>{
+                        return {
+                            _id: order._id,
+                            id: "ORD" + order._id.slice(0,3),
+                            warehouseName: order.warehouseName,
+                            warehouseAddress: order.warehouseAddress,
+                            warehouseArea: order?.warehouseArea || "4,000",
+                            warehouseImage: order?.warehouseImage || "https://images.unsplash.com/photo-1553413077-190dd305871c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+                            orderDate: order.orderCreatedDate,
+                            expectedDelivery: order.estimatedDeliveryDate,
+                            status: order.orderStatus,
+                            items: order.selectedProducts.map(({productName, quantity})=>{
+                                return {
+                                    name: productName,
+                                    quantity
+                                }
+                            })
+                        }
+                    }));
+                    toast.success("Fetched Orders Successfully")
+                  } catch (error) {
+                    console.error("Error fetching manufacturer orders:", error);
+                    toast.error("Failed to fetch manufacturer orders");
+                  }
+            }
+        }
+
+        fetchManufacOrders();
+    }, [manufacturerId])
+
+    const fulfillOrder = (orderId) => {
+        try {
+            const fulfil = apiConnector("GET", "/order/complete/"+orderId);
+            console.log(fulfil);
+        } catch (error) {
+            toast.error("Failed to Fulfill Order");
+            console.log("Failed to Fulfill Order", error);
+        }
+    }
 
     const formatDate = (dateString) => {
         return new Date(dateString).toLocaleDateString("en-US", {
@@ -102,7 +160,7 @@ function SupplierOrders() {
                                     {/* Warehouse Image */}
                                     <div className="flex-shrink-0">
                                         <img
-                                            src={order.warehouseImage || "/placeholder.svg"}
+                                            src={order.warehouseImage || "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"}
                                             alt={order.warehouseName}
                                             className="w-full md:w-80 h-64 object-cover rounded-xl shadow-md"
                                         />
@@ -167,19 +225,8 @@ function SupplierOrders() {
 
                                         {/* Action Button */}
                                         <button
-                                            onClick={() => navigate(`/dashboard/fulfill-order`, { 
-                                                state: { 
-                                                    pendingOrders: order,
-                                                    warehouseDetails: {
-                                                        warehouseName: order.warehouseName,
-                                                        warehouseAddress: order.warehouseAddress,
-                                                        warehouseArea: order.warehouseArea,
-                                                        warehouseImage: order.warehouseImage
-                                                    },
-                                                    uniqueId: order.id
-                                                } 
-                                            })}
-                                            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 px-6 rounded-xl transition-colors duration-200 shadow-lg hover:shadow-xl"
+                                            onClick={fulfillOrder(order?._id)}
+                                            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 px-6 rounded-xl transition-colors duration-200 shadow-lg hover:shadow-xl cursor-pointer"
                                         >
                                             Fulfill the Order
                                         </button>

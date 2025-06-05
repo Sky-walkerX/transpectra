@@ -14,21 +14,20 @@ function CreateOrder() {
   const [formData, setFormData] = useState({
     manufacturerId: '',
     estimatedDeliveryDate: '',
-    selectedProducts: [{ name: '', quantity: '' }]
+    selectedProducts: [{ 
+      productName: '', 
+      quantity: '', 
+      specifications: ''
+    }]
   });
-
-  useEffect(() => {
-    // Fetch manufacturers when component mounts
-    fetchManufacturers();
-  }, []);
 
   const fetchManufacturers = async () => {
     try {
-        const x = await apiConnector("GET", "http://localhost:4000/api/v1/warehouse/"+user._id);
-        if (x.data) {
-            console.log(x.data)
-            setWarehouseId(x.data.warehouse._id);
-        }
+      const x = await apiConnector("GET", "http://localhost:4000/api/v1/warehouse/"+user._id);
+      if (x.data) {
+        console.log(x.data)
+        setWarehouseId(x.data.warehouse._id);
+      }
       const response = await apiConnector(
         "GET",
         "http://localhost:4000/api/v1/manufacturer/"
@@ -42,6 +41,13 @@ function CreateOrder() {
       toast.error("Failed to fetch manufacturers");
     }
   };
+
+  useEffect(() => {
+    // Fetch manufacturers when component mounts
+    fetchManufacturers();
+  }, []);
+
+  
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -63,7 +69,11 @@ function CreateOrder() {
   const addProduct = () => {
     setFormData(prev => ({
       ...prev,
-      selectedProducts: [...prev.selectedProducts, { name: '', quantity: '' }]
+      selectedProducts: [...prev.selectedProducts, { 
+        productName: '', 
+        quantity: '', 
+        specifications: ''
+      }]
     }));
   };
 
@@ -83,14 +93,13 @@ function CreateOrder() {
       return;
     }
 
-    if (formData.selectedProducts.some(product => !product.name || !product.quantity)) {
+    if (formData.selectedProducts.some(product => !product.productName || !product.quantity)) {
       toast.error("Please fill in all product details");
       return;
     }
 
     try {
       setLoading(true);
-
       const response = await apiConnector(
         "POST",
         "http://localhost:4000/api/v1/order/create",
@@ -98,7 +107,7 @@ function CreateOrder() {
           selectedProducts: formData.selectedProducts,
           manufacturerId: formData.manufacturerId,
           estimatedDeliveryDate: formData.estimatedDeliveryDate,
-          warehouseId: warehouseId // Using warehouse manager's ID as warehouseId
+          warehouseId: warehouseId
         }
       );
 
@@ -159,7 +168,7 @@ function CreateOrder() {
               onChange={handleInputChange}
               className="w-full px-4 py-2 bg-richblue-800 border border-richblue-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-richblue-500"
               required
-              min={new Date().toISOString().split('T')[0]} // Set minimum date to today
+              min={new Date().toISOString().split('T')[0]}
             />
           </div>
 
@@ -178,37 +187,49 @@ function CreateOrder() {
             </div>
 
             {formData.selectedProducts.map((product, index) => (
-              <div key={index} className="flex gap-4 mb-4">
+              <div key={index} className="flex flex-col gap-4 mb-4 p-4 bg-richblue-800 rounded-lg">
+                <div className="flex gap-4">
+                  <div className="flex-1">
+                    <input
+                      type="text"
+                      placeholder="Product Name"
+                      value={product.productName}
+                      onChange={(e) => handleProductChange(index, 'productName', e.target.value)}
+                      className="w-full px-4 py-2 bg-richblue-700 border border-richblue-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-richblue-500"
+                      required
+                    />
+                  </div>
+                  <div className="w-32">
+                    <input
+                      type="number"
+                      placeholder="Quantity"
+                      value={product.quantity}
+                      onChange={(e) => handleProductChange(index, 'quantity', e.target.value)}
+                      className="w-full px-4 py-2 bg-richblue-700 border border-richblue-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-richblue-500"
+                      required
+                      min="1"
+                    />
+                  </div>
+                  {index > 0 && (
+                    <button
+                      type="button"
+                      onClick={() => removeProduct(index)}
+                      className="px-3 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+                    >
+                      <FaTrash />
+                    </button>
+                  )}
+                </div>
                 <div className="flex-1">
                   <input
                     type="text"
-                    placeholder="Product Name"
-                    value={product.name}
-                    onChange={(e) => handleProductChange(index, 'name', e.target.value)}
-                    className="w-full px-4 py-2 bg-richblue-800 border border-richblue-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-richblue-500"
+                    placeholder="Product Specifications"
+                    value={product.specifications}
+                    onChange={(e) => handleProductChange(index, 'specifications', e.target.value)}
+                    className="w-full px-4 py-2 bg-richblue-700 border border-richblue-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-richblue-500"
                     required
                   />
                 </div>
-                <div className="w-32">
-                  <input
-                    type="number"
-                    placeholder="Quantity"
-                    value={product.quantity}
-                    onChange={(e) => handleProductChange(index, 'quantity', e.target.value)}
-                    className="w-full px-4 py-2 bg-richblue-800 border border-richblue-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-richblue-500"
-                    required
-                    min="1"
-                  />
-                </div>
-                {index > 0 && (
-                  <button
-                    type="button"
-                    onClick={() => removeProduct(index)}
-                    className="px-3 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
-                  >
-                    <FaTrash />
-                  </button>
-                )}
               </div>
             ))}
           </div>

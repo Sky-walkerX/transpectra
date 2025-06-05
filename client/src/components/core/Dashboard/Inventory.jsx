@@ -384,6 +384,9 @@ function Inventory() {
                 <th className="px-6 py-4 text-left text-xs font-medium text-blue-25 uppercase tracking-wider">
                   Category
                 </th>
+                <th className="px-6 py-4 text-center text-xs font-medium text-blue-25 uppercase tracking-wider">
+                  Action
+                </th>
               </tr>
             </thead>
             <tbody className="bg-richblue-900 divide-y divide-richblue-700">
@@ -402,14 +405,6 @@ function Inventory() {
                   <tr
                     key={item.Id}
                     className="hover:bg-richblue-800 cursor-pointer transition-colors duration-150"
-                    onClick={() =>
-                      navigate("/dashboard/product-order", {
-                        state: {
-                          category: item.category,
-                          product: item,
-                        },
-                      })
-                    }
                   >
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="font-medium text-white">{item.productName}</div>
@@ -428,6 +423,25 @@ function Inventory() {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-white">
                       {item.category}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-center">
+                      {item.stockStatus === "Low Stock" && (
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            navigate("/dashboard/product-order", {
+                              state: {
+                                category: item.category,
+                                product: item,
+                              },
+                            });
+                          }}
+                          className="px-4 py-2 bg-[#FF2323] text-white rounded-lg hover:bg-[#FF4444] transition-colors flex items-center gap-2 mx-auto"
+                        >
+                          <HiSparkles className="h-4 w-4" />
+                          Restock
+                        </button>
+                      )}
                     </td>
                   </tr>
                 ))

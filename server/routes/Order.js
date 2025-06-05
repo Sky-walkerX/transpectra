@@ -5,6 +5,7 @@ const {
     getOrdersByManufacturer,
     getOrdersByWarehouse,
     getManufacturerDetails,
+    completeOrder
 } = require("../controllers/Order");
 
 
@@ -26,6 +27,8 @@ router.post("/create", createOrder);
  * URL : /api/v1/order/manufacturer/:manufacturerId/details
  *  
  * */ 
+
+router.get("/complete/:orderId", completeOrder);
 
 router.get("/warehouse/:warehouseId", getOrdersByWarehouse);
 

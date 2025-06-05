@@ -64,11 +64,11 @@ function SupplierOrders() {
                 ...orders,
                 ...manufacOrders
             ].filter(order =>
-                order.warehouseName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                order.warehouseAddress.toLowerCase().includes(searchTerm.toLowerCase())
+                (order.warehouseName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                order.warehouseAddress.toLowerCase().includes(searchTerm.toLowerCase())) && order.status!=="fulfilled"
             )
         )
-    }, [searchTerm, orders, manufacOrders]);
+    }, [searchTerm, manufacOrders]);
 
     useEffect(()=>{
         const fetchManufacOrders = async () => {
@@ -106,9 +106,10 @@ function SupplierOrders() {
         fetchManufacOrders();
     }, [manufacturerId])
 
-    const fulfillOrder = (orderId) => {
+    const fulfillOrder = async (orderId) => {
         try {
-            const fulfil = apiConnector("GET", "/order/complete/"+orderId);
+            const fulfil = await apiConnector("GET", "/order/complete/"+orderId);
+            toast.success("Order Fulfilled Sucessfully");
             console.log(fulfil);
         } catch (error) {
             toast.error("Failed to Fulfill Order");
@@ -225,7 +226,7 @@ function SupplierOrders() {
 
                                         {/* Action Button */}
                                         <button
-                                            onClick={fulfillOrder(order?._id)}
+                                            onClick={()=>fulfillOrder(order?._id)}
                                             className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 px-6 rounded-xl transition-colors duration-200 shadow-lg hover:shadow-xl cursor-pointer"
                                         >
                                             Fulfill the Order

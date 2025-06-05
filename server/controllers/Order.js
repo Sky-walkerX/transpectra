@@ -292,3 +292,45 @@ exports.getManufacturerDetails = async (req, res) => {
     });
   }
 };
+
+
+exports.completeOrder = async (req, res) => {
+  try {
+    const { orderId } = req.params;
+    if (!orderId) {
+      return res.status(400).json({
+        success: false,
+        message: "Order ID is required.",
+      });
+    }
+
+    const order = await Order.findById(orderId);
+
+    if (!order) {
+      return res.status(404).json({
+        success: false,
+        message: "Manufacturer not found.",
+      });
+    }
+
+    // Fetch the manufacturer
+    const updatedOrder = await Order.findOneAndUpdate(
+      { _id: orderId },                // filter
+      { $set: { orderStatus: 'fulfilled' } }, // update
+      { new: true, runValidators: true } // options
+    );
+
+    // Return response
+    return res.status(200).json({
+      success: true,
+      order: updatedOrder,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      success: false,
+      message: "An error occurred while fulfilling order.",
+      error: error.message,
+    });
+  }
+};

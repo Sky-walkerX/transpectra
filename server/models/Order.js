@@ -43,6 +43,10 @@ const OrderSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    warehouseArea: {
+      type: String,
+      required: true,
+    },
     estimatedDeliveryDate: {
       type: Date,
       required: true,

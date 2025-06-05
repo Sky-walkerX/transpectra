@@ -61,8 +61,8 @@ function SupplierOrders() {
     useEffect(() => {
         setFilteredOrders(
             [
+                ...manufacOrders,
                 ...orders,
-                ...manufacOrders
             ].filter(order =>
                 (order.warehouseName.toLowerCase().includes(searchTerm.toLowerCase()) ||
                 order.warehouseAddress.toLowerCase().includes(searchTerm.toLowerCase())) && order.status!=="fulfilled"

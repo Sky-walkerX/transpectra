@@ -316,7 +316,7 @@ exports.completeOrder = async (req, res) => {
     // Fetch the manufacturer
     const updatedOrder = await Order.findOneAndUpdate(
       { _id: orderId },                // filter
-      { $set: { orderStatus: 'fulfilled' } }, // update
+      { $set: { orderStatus: 'fulfilled', actualDeliveryDate: Date.now() } }, // update
       { new: true, runValidators: true } // options
     );
 

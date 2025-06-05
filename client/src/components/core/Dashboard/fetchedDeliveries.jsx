@@ -14,12 +14,18 @@ import {
   FaBoxOpen,
   FaClock,
 } from 'react-icons/fa';
+import {useSelector} from 'react-redux'
+import { apiConnector } from '../../../services/apiConnector';
+import toast from 'react-hot-toast';
 
 function FetchedDeliveries() {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [manufacOrders, setManufacOrders] = useState([]);
+  const manufacturerId = useSelector((state)=>state.auth).user.LinkedManufacturingUnitID;
+  const [filteredDeliveries, setFilteredDeliveries] = useState([]);
   const dropdownRef = useRef(null);
 
   // Hardcoded deliveries data (kept for context, not modified)
@@ -35,7 +41,7 @@ function FetchedDeliveries() {
       ],
       orderDate: '2024-03-15',
       deliveryDate: '2024-03-20',
-      status: 'completed',
+      status: 'fulfilled',
       totalValue: '₹2,50,000',
       trackingId: 'TRK123456',
       route: 'Mumbai → Delhi → Kolkata',
@@ -76,7 +82,7 @@ function FetchedDeliveries() {
 
   const statusOptions = [
     { value: 'all', label: 'All Status', icon: <FaBoxOpen /> },
-    { value: 'completed', label: 'Completed', icon: <FaCheckCircle /> },
+    { value: 'fulfilled', label: 'Completed', icon: <FaCheckCircle /> },
     { value: 'in-transit', label: 'In Transit', icon: <FaTruck /> },
     { value: 'pending', label: 'Pending', icon: <FaClock /> },
   ];
@@ -91,17 +97,31 @@ function FetchedDeliveries() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const filteredDeliveries = deliveries.filter((delivery) => {
-    const matchesSearch =
-      delivery.warehouseName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      delivery.trackingId.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesStatus = statusFilter === 'all' || delivery.status === statusFilter;
-    return matchesSearch && matchesStatus;
-  });
+  // const filteredDeliveries = deliveries.filter((delivery) => {
+    
+  // });
+
+  useEffect(() => {
+    setFilteredDeliveries(
+        [
+            ...manufacOrders,
+            ...deliveries,
+        ].filter(delivery => {
+            // (order.warehouseName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            // order.warehouseAddress.toLowerCase().includes(searchTerm.toLowerCase())) && order.status!=="fulfilled"
+            const matchesSearch =
+            delivery.warehouseName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            delivery.trackingId.toLowerCase().includes(searchTerm.toLowerCase());
+            const matchesStatus = statusFilter === 'all' || delivery.status === statusFilter;
+            return matchesSearch && matchesStatus;
+          }
+        )
+    )
+}, [searchTerm, manufacOrders]);
 
   const getStatusColor = (status) => {
     switch (status) {
-      case 'completed':
+      case 'fulfilled':
         return 'bg-green-100 text-green-800';
       case 'in-transit':
         return 'bg-blue-100 text-blue-800';
@@ -112,9 +132,50 @@ function FetchedDeliveries() {
     }
   };
 
+  useEffect(()=>{
+    const fetchManufacOrders = async () => {
+        console.log(manufacturerId)
+        if(manufacturerId && manufacOrders.length === 0) {
+            try {
+                const orders = await apiConnector("GET", "/order/manufacturer/"+manufacturerId);
+                setManufacOrders(orders.data.orders.map((order)=>{
+                    const total = order.selectedProducts.reduce(
+                      (acc, p) => acc + p.quantity * 10000, 0
+                    );
+                    
+                    return {
+                        id: order._id,
+                        orderId: "ORD" + order._id.slice(0,3),
+                        warehouseName: order.warehouseName,
+                        warehouseAddress: order.warehouseAddress,
+                        orderDate: order.orderCreatedDate,
+                        deliveryDate: order.actualDeliveryDate || Date.now(),
+                        status: order.orderStatus,
+                        items: order.selectedProducts.map(({productName, quantity})=>{
+                            return {
+                                name: productName,
+                                quantity
+                            }
+                        }),
+                        route: `${order.manufacturerAddress} → ${order.warehouseAddress}`,
+                        trackingId: `TRK${order._id.slice(0,6)}`,
+                        totalValue: "₹" + total,
+                    }
+                }));
+                toast.success("Fetched Orders Successfully")
+              } catch (error) {
+                console.error("Error fetching manufacturer orders:", error);
+                toast.error("Failed to fetch manufacturer orders");
+              }
+        }
+    }
+
+    fetchManufacOrders();
+}, [manufacturerId])
+
   const getStatusIcon = (status) => {
     switch (status) {
-      case 'completed':
+      case 'fulfilled':
         return <FaCheckCircle className="text-green-500" />;
       case 'in-transit':
         return <FaSpinner className="text-blue-500 animate-spin" />;

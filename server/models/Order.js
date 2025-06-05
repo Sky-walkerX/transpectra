@@ -26,9 +26,21 @@ const OrderSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    manufacturerAddress: {
+      type: String,
+      required: true,
+    },
     warehouseId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Warehouse",
+      required: true,
+    },
+    warehouseName: {
+      type: String,
+      required: true,
+    },
+    warehouseAddress: {
+      type: String,
       required: true,
     },
     estimatedDeliveryDate: {

@@ -1,7 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const { createOrder } = require("../controllers/Order");
-const { getManufacturerDetails } = require("../controllers/Order");
+const { 
+    createOrder,
+    getOrdersByManufacturer,
+    getOrdersByWarehouse,
+    getManufacturerDetails,
+} = require("../controllers/Order");
 
 
 
@@ -23,7 +27,11 @@ router.post("/create", createOrder);
  *  
  * */ 
 
+router.get("/warehouse/:warehouseId", getOrdersByWarehouse);
+
 router.get("/manufacturer/:manufacturerId/details", getManufacturerDetails);
+
+router.get("/manufacturer/:manufacturerId", getOrdersByManufacturer);
 
 
 module.exports = router;

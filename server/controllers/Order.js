@@ -4,6 +4,15 @@ const Warehouse = require("../models/Warehouse");
 const QRCode = require("qrcode");
 const { uploadImageToCloudinary } = require("../utils/imageUploader");
 const generateUniqueId = require("generate-unique-id");
+const getRanHex = size => {
+  let result = [];
+  let hexRef = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'];
+  for (let n = 0; n < size; n++) {
+    result.push(hexRef[Math.floor(Math.random() * 16)]);
+  }
+  return result.join('');
+}
+
 
 /**
  * 
@@ -28,6 +37,11 @@ exports.createOrder = async (req, res) => {
         message: "Please provide selected products with their details.",
       });
     }
+
+    selectedProducts.forEach(product => {
+      product.productId = getRanHex(24); // Generating a random 24 character string
+    });
+
     if (!manufacturerId || !estimatedDeliveryDate || !warehouseId) {
       return res.status(400).json({
         success: false,
@@ -61,7 +75,11 @@ exports.createOrder = async (req, res) => {
       selectedProducts,
       manufacturerId,
       manufacturerName: manufacturer.companyName,
+      manufacturerAddress: manufacturer?.companyAddress,
       warehouseId,
+      warehouseName: warehouse?.warehouseName,
+      warehouseArea: warehouse?.warehouseArea,
+      warehouseAddress: warehouse?.warehouseAddress,
       estimatedDeliveryDate,
     });
 
@@ -119,6 +137,86 @@ exports.createOrder = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: "An error occurred while creating the order.",
+      error: error.message,
+    });
+  }
+};
+
+exports.getOrdersByWarehouse = async (req, res) => {
+  try {
+    const { warehouseId } = req.params;
+    // Validate warehouseId
+    if (!warehouseId) {
+      return res.status(400).json({
+        success: false,
+        message: "Warehouse ID is required.",
+      });
+    }
+
+    // Fetch the warehouse
+    const warehouse = await ManufacturingUnit.findById(warehouseId)
+
+    if (!warehouse) {
+      return res.status(404).json({
+        success: false,
+        message: "Warehouse not found.",
+      });
+    }
+
+    const orders = await Order.find({
+      warehouseId: warehouseId,
+    });
+
+    // Return response
+    return res.status(200).json({
+      success: true,
+      orders: orders,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      success: false,
+      message: "An error occurred while fetching orders.",
+      error: error.message,
+    });
+  }
+};
+
+exports.getOrdersByManufacturer = async (req, res) => {
+  try {
+    const { manufacturerId } = req.params;
+    // Validate manufacturerId
+    if (!manufacturerId) {
+      return res.status(400).json({
+        success: false,
+        message: "Manufacturer ID is required.",
+      });
+    }
+
+    // Fetch the manufacturer
+    const manufacturer = await ManufacturingUnit.findById(manufacturerId)
+
+    if (!manufacturer) {
+      return res.status(404).json({
+        success: false,
+        message: "Manufacturer not found.",
+      });
+    }
+
+    const orders = await Order.find({
+      manufacturerId: manufacturerId,
+    });
+
+    // Return response
+    return res.status(200).json({
+      success: true,
+      orders: orders,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      success: false,
+      message: "An error occurred while fetching orders.",
       error: error.message,
     });
   }

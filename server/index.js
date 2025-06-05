@@ -16,8 +16,9 @@ const { getCarbonEmission } = require('./UlipAPI/carbonEmissionapi')
 const PORT = process.env.PORT || 4000
 
 // Loading environment variables from .env file
-dotenv.config({path:"config/config.env"})
-   
+// Ensure dotenv is configured to load your .env file
+dotenv.config({path:".env"}) // Use .env directly if it's in the root, or config/config.env
+
 // Connecting to database
 database.connect()
 const cookieParser = require("cookie-parser")
@@ -28,7 +29,6 @@ const { cloudinaryConnect } = require("./config/cloudinary")
 //const fileUpload = require("express-fileupload")
 
 
-
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
@@ -36,26 +36,13 @@ app.use(express.urlencoded({ limit: '50mb', extended: true }));
 // Middlewares
 app.use(
     cors({
-        origin: "http://localhost:3000", // Ensure process.env.CLIENT is set to "http://localhost:3000"
+        origin: "http://localhost:3000", // Ensure process.env.CLIENT is set to "http://localhost:3000" in production too
         credentials: true, // Allow credentials
         methods: "GET,POST,PUT,DELETE,OPTIONS",
         allowedHeaders: "Content-Type,Authorization",
     })
 );
 
-// app.use(
-//     cors({
-//         origin: process.env.CLIENT,
-//         credentials: true,
-//     })
-// )
-// app.use(
-//     fileUpload({
-//         useTempFiles: true,
-//         tempFileDir: "/uploads/",
-//         limits: { fileSize: 20 * 1024 * 1024 },
-//     })
-// )
 const fs = require("fs");
 const uploadDir = path.join(__dirname, "uploads");
 if (!fs.existsSync(uploadDir)) {
@@ -80,10 +67,11 @@ const OrderRoutes = require('./routes/Order');
 const DeliveryRoutes = require('./routes/delivery');
 const inventoryRoutes = require('./routes/inventory');
 const pdfRoutes=require('./routes/pdf');
-// const OrderedProductsRoutes = require('./routes/OrderedProductsRoutes')
-// const OrderRequestRoute = require('./routes/OrderRequestRoute')
 const ManufacturerFetchRoute = require('./routes/Manufacturer')
 const routeTracking = require('./routes/routeTracking')
+
+// Import the new contact controller
+const { submitContactForm } = require('./controllers/contactController'); // Adjust path as needed
 
 app.get("/", (req, res) => {
     return res.json({
@@ -102,8 +90,9 @@ app.get('/carbon', async (req, res) => {
     })
 })
 
-
-
+// --- NEW CONTACT FORM ROUTE ---
+app.post('/api/v1/contact', submitContactForm);
+// --- END NEW CONTACT FORM ROUTE ---
 
 // Routes
 app.use(CONFIG.APIS.auth, userRoutes);
@@ -116,8 +105,6 @@ app.use(CONFIG.APIS.manufacturingUnit, ManufacturingUnitRoutes)
 app.use(CONFIG.APIS.yard, YardManage)
 app.use(CONFIG.APIS.fleet, fleetRoutes)
 app.use(CONFIG.APIS.delivery, DeliveryRoutes);
-// app.use(CONFIG.APIS.OrderedProducts, OrderedProductsRoutes)
-// app.use(CONFIG.APIS.OrderRequest, OrderRequestRoute)
 app.use(CONFIG.APIS.Order, OrderRoutes);
 app.use(CONFIG.APIS.ManufacturerFetch, ManufacturerFetchRoute)
 app.use(CONFIG.APIS.inventory, inventoryRoutes)
@@ -129,4 +116,3 @@ app.use(CONFIG.APIS.pdf, pdfRoutes)
 app.listen(PORT, () => {
     console.log(`App is listening at ${PORT}`)
 })
-// End of code.

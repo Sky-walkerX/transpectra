@@ -234,13 +234,13 @@ export function login(email, password, navigate) {
         // Fetch profile details based on account type
         if (user.accountType === "Warehouse_Manager") {
             await dispatch(fetchWarehouseDetails(userId));
-            navigate('/dashboard/my-profile');
+            navigate('/dashboard/analytics');
         } else if (user.accountType === "Yard_managers") {
             await dispatch(fetchYardDetails(userId));
-            navigate('/dashboard/my-profile-yard');
+            navigate('/dashboard/analytics');
         } else {
             await dispatch(fetchCompanyDetails(userId));
-            navigate('/dashboard/my-profile');
+            navigate('/dashboard/analytics');
         }
   
       } catch (error) {

@@ -41,7 +41,7 @@ function SupplierOrders() {
 
     // Filter warehouse orders based on the search term
     const filteredOrders = warehouseOrders.filter(order =>
-        order.warehouseName.toLowerCase().includes(searchTerm.toLowerCase())
+        order?.warehouseName ? order?.warehouseName.toLowerCase().includes(searchTerm.toLowerCase()) : false
     );
 
     return (

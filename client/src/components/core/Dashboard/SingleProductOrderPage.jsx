@@ -12,7 +12,7 @@ const SingleProductOrderPage = () => {
   const location = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { user } = useSelector((state) => state.auth);
+  const user = JSON.parse(localStorage.getItem("user"));
   const manufacturerList = useSelector((state) => state.manufacturers.manufacturers);
   const isLoading = useSelector((state) => state.manufacturers.isLoading);
 

@@ -7,7 +7,7 @@ import img from "../../../../assets/Images/Excelsheet.jpg"
 
 export default function ChangeInventoryExcelSheet() {
   const { token } = useSelector((state) => state.auth);
-  const { user } = useSelector((state) => state.auth);
+  const user = JSON.parse(localStorage.getItem("user"));
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [excelFile, setExcelFile] = useState(null);

@@ -182,6 +182,24 @@ exports.getOrdersByWarehouse = async (req, res) => {
   }
 };
 
+exports.getAllOrders = async (req, res) => {
+  try {
+    const orders = await Order.find();
+    // Return response
+    return res.status(200).json({
+      success: true,
+      orders: orders,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      success: false,
+      message: "An error occurred while fetching orders.",
+      error: error.message,
+    });
+  }
+};
+
 exports.getOrdersByManufacturer = async (req, res) => {
   try {
     const { manufacturerId } = req.params;

@@ -63,9 +63,14 @@ function SupplierOrders() {
             [
                 ...manufacOrders,
                 ...orders,
-            ].filter(order =>
-                (order.warehouseName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                order.warehouseAddress.toLowerCase().includes(searchTerm.toLowerCase())) && order.status!=="fulfilled"
+            ].filter(order => {
+                if (order.warehouseName) {
+                    return (order.warehouseName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    order.warehouseAddress.toLowerCase().includes(searchTerm.toLowerCase())) && order.status!=="fulfilled"
+                } else {
+                    return false
+                }
+            }
             )
         )
     }, [searchTerm, manufacOrders]);
@@ -76,6 +81,7 @@ function SupplierOrders() {
             if(manufacturerId && manufacOrders.length === 0) {
                 try {
                     const orders = await apiConnector("GET", "/order/manufacturer/"+manufacturerId);
+                    console.log(orders)
                     setManufacOrders(orders.data.orders.map((order)=>{
                         return {
                             _id: order._id,

@@ -43,7 +43,7 @@ import YardActivities from "./components/core/Dashboard/YardActivites";
 function App() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.auth);
+  const user = JSON.parse(localStorage.getItem("user"));
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
     console.log("8888888888888888888888888900000000"+storedToken);
@@ -71,7 +71,8 @@ function App() {
       dispatch(fetchWarehouseDetails(user._id));
       }
       else{
-        dispatch(fetchYardDetails(user._id));
+        let a = user._id;
+        dispatch(fetchYardDetails({managerId: a}));
       }
     }
   }, [user, dispatch]);

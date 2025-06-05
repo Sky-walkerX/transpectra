@@ -16,7 +16,7 @@ exports.addYard = async (req, res) => {
     }
 
     // Fetch warehouse by code
-    const wareHouse = await Warehouse.findOne({ uniqueCode: warehouseCode });
+    const wareHouse = await Warehouse.findOne({ _id: warehouseCode });
     if (!wareHouse) {
       throw new Error("Invalid Warehouse Code");
     }

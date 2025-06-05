@@ -24,6 +24,7 @@ function FetchedDeliveries() {
   const [statusFilter, setStatusFilter] = useState('all');
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [manufacOrders, setManufacOrders] = useState([]);
+  const user = JSON.parse(localStorage.getItem("user"));
   const manufacturerId = useSelector((state)=>state.auth).user.LinkedManufacturingUnitID;
   const [filteredDeliveries, setFilteredDeliveries] = useState([]);
   const dropdownRef = useRef(null);
@@ -109,11 +110,15 @@ function FetchedDeliveries() {
         ].filter(delivery => {
             // (order.warehouseName.toLowerCase().includes(searchTerm.toLowerCase()) ||
             // order.warehouseAddress.toLowerCase().includes(searchTerm.toLowerCase())) && order.status!=="fulfilled"
-            const matchesSearch =
-            delivery.warehouseName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            delivery.trackingId.toLowerCase().includes(searchTerm.toLowerCase());
-            const matchesStatus = statusFilter === 'all' || delivery.status === statusFilter;
-            return matchesSearch && matchesStatus;
+            if (delivery.warehouseName) {
+              const matchesSearch =
+              delivery.warehouseName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+              delivery.trackingId.toLowerCase().includes(searchTerm.toLowerCase());
+              const matchesStatus = statusFilter === 'all' || delivery.status === statusFilter;
+              return matchesSearch && matchesStatus
+            } else {
+              return false
+            };
           }
         )
     )
@@ -134,10 +139,15 @@ function FetchedDeliveries() {
 
   useEffect(()=>{
     const fetchManufacOrders = async () => {
-        console.log(manufacturerId)
-        if(manufacturerId && manufacOrders.length === 0) {
+        console.log(user)
+        if(manufacOrders.length === 0) {
             try {
-                const orders = await apiConnector("GET", "/order/manufacturer/"+manufacturerId);
+              let orders;
+                if (user.accountType === "Yard_managers") {
+                  orders = await apiConnector("GET", "/order/");
+                } else {
+                  orders = await apiConnector("GET", "/order/manufacturer/"+manufacturerId);
+                }
                 setManufacOrders(orders.data.orders.map((order)=>{
                     const total = order.selectedProducts.reduce(
                       (acc, p) => acc + p.quantity * 10000, 0

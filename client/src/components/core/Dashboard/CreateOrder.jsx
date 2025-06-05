@@ -7,7 +7,7 @@ import { toast } from 'react-hot-toast';
 
 function CreateOrder() {
   const navigate = useNavigate();
-  const { user } = useSelector((state) => state.auth);
+  const user = JSON.parse(localStorage.getItem("user"));
   const [manufacturers, setManufacturers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [warehouseId, setWarehouseId] = useState("");

@@ -5,7 +5,8 @@ const {
     getOrdersByManufacturer,
     getOrdersByWarehouse,
     getManufacturerDetails,
-    completeOrder
+    completeOrder,
+    getAllOrders
 } = require("../controllers/Order");
 
 
@@ -36,5 +37,6 @@ router.get("/manufacturer/:manufacturerId/details", getManufacturerDetails);
 
 router.get("/manufacturer/:manufacturerId", getOrdersByManufacturer);
 
+router.get("/", getAllOrders);
 
 module.exports = router;

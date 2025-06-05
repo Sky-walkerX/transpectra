@@ -56,7 +56,7 @@ export default function OngoingOrders() {
   const [priorityFilter, setPriorityFilter] = useState("All");
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [showDetails, setShowDetails] = useState(false);
-//   const { user } = useSelector((state) => state.auth);
+//   const user = JSON.parse(localStorage.getItem("user"));
 
   const filteredOrders = mockOrders.filter((order) => {
     const matchesSearch = 

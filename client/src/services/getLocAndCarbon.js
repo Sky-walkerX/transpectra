@@ -4,13 +4,14 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 
 // dotenv.config()
 
-const API_KEY = process.env.GOOGLE_API_KEY;
+const API_KEY = process.env.REACT_APP_GOOGLE_API_KEY;
 
 // Initialize the Gemini client
 const genAI = new GoogleGenerativeAI(API_KEY);
 
 // Template function to use Gemini 1.5 or 1.0 Pro
 export async function getLocAndCarbon(cit, array) {
+  console.warn("API KEY: ", API_KEY)
   try {
     const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
 

@@ -38,6 +38,7 @@ import { setToken } from "./slices/authSlice";
 import AboutUs from "./components/core/AboutUs";
 import Services from "./components/core/Services";
 import ContactUs from "./components/core/ContactUs"; // Assuming you have a ContactUs component
+import YardActivities from "./components/core/Dashboard/YardActivites";
 
 function App() {
   const navigate = useNavigate();
@@ -192,7 +193,7 @@ function App() {
             path="dashboard/fleetActivity"
             element={
               <PrivateRoute>
-                <FleetOverviewPage />
+                <YardActivities />
               </PrivateRoute>
             }
           />

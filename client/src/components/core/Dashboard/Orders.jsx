@@ -80,7 +80,7 @@ const Orders = () => {
   };
 
   return (
-    <div className="flex min-h-screen bg-slate-800">
+    <div className="flex min-h-screen bg-richblue-800">
       {/* Main Content */}
       <div className="flex-1 p-8">
         {/* Header */}

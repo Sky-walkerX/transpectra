@@ -1,27 +1,27 @@
 import { ACCOUNT_TYPE } from "../utils/constants"
 
 export const sidebarLinks = [
-  {
-    id: 1,
-    name: "My Profile",
-    path: "/dashboard/my-profile",
-    type: ACCOUNT_TYPE.WAREHOUSE_MANAGER,
-    icon: "VscAccount",
-  },
-  {
-    id: 1,
-    name: "My Profile",
-    path: "/dashboard/my-profile",
-    type: ACCOUNT_TYPE.SUPPLIER,
-    icon: "VscAccount",
-  },
-  {
-    id: 2,
-    name: "Yard Profile",
-    path: "/dashboard/my-profile-yard",
-    type: ACCOUNT_TYPE.YARD_MANAGER,
-    icon: "VscAccount",
-  },
+  // {
+  //   id: 1,
+  //   name: "My Profile",
+  //   path: "/dashboard/my-profile",
+  //   type: ACCOUNT_TYPE.WAREHOUSE_MANAGER,
+  //   icon: "VscAccount",
+  // },
+  // {
+  //   id: 1,
+  //   name: "My Profile",
+  //   path: "/dashboard/my-profile",
+  //   type: ACCOUNT_TYPE.SUPPLIER,
+  //   icon: "VscAccount",
+  // },
+  // {
+  //   id: 2,
+  //   name: "Yard Profile",
+  //   path: "/dashboard/my-profile-yard",
+  //   type: ACCOUNT_TYPE.YARD_MANAGER,
+  //   icon: "VscAccount",
+  // },
   {
     id: 4,
     name: "Dashboard",
